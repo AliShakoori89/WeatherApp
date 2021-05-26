@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/bloc/hourly_weather_bloc.dart';
-import 'package:weather/bloc/week_weather_bloc.dart';
+import 'package:weather/bloc/daily_weather_bloc.dart';
 
 class HourlyWeekWeathers extends StatefulWidget {
 

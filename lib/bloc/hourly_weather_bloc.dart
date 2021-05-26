@@ -64,8 +64,6 @@ class HourlyWeatherBloc extends Bloc<HourlyWeatherEvent, HourlyWeatherState> {
   Stream<HourlyWeatherState> mapEventToState(HourlyWeatherEvent event) async* {
     if (event is FetchHourlyWeathersWithGetForecastEvent) {
 
-      // print('FetchWeathersWithGetForecastEvent WeekWeatherEventbloc');
-
       yield HourlyWeatherLoadingState();
       try {
         print('FetchWeathersWithGetForecastEvent WeekWeatherEventbloc');
@@ -76,7 +74,6 @@ class HourlyWeatherBloc extends Bloc<HourlyWeatherEvent, HourlyWeatherState> {
 
         yield HourlyWeatherIsLoadedState(weather);
       } catch (exception) {
-        print(exception);
         if (exception is AppException) {
           yield HourlyWeatherError(300);
         } else {

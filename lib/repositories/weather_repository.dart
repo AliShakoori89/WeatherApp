@@ -23,6 +23,7 @@ class WeatherRepository {
   //
   Future<DailyWeatherModel> getForecastForDaily (String cityName) async{
 
+    print('xxxxxxxxxxxddddddddddddddddailygetForecast');
     var weathers = await _apiHelper.DailygetForecast(cityName);
     print('xxxxdailygetForecast$weathers');
     return weathers;

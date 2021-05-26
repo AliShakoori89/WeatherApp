@@ -34,8 +34,8 @@ class DailyWeatherIsLoadedState extends DailyWeatherState{
 
   DailyWeatherModel get getWeather => _weather;
 
-  // @override
-  // List<Object> get props => [_weather];
+  @override
+  List<Object> get props => [_weather];
 }
 
 class DailyWeatherError extends DailyWeatherState {
@@ -66,8 +66,11 @@ class DailyWeatherBloc extends Bloc<DailyWeatherEvent, DailyWeatherState> {
     if (event is FetchDailyWeathersWithGetForecastEvent) {
       yield DailyWeatherLoadingState();
       try {
+        print('Daily weather blocccccccccccccccccccccccccccccccccccccc');
         final DailyWeatherModel weather = await weatherRepository.getForecastForDaily(
             event.cityName);
+
+        print('Daily weather blocccccccccccccccccccccccccccccccccccccc$weather');
 
         yield DailyWeatherIsLoadedState(weather);
       } catch (exception) {

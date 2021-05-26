@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/bloc/hourly_weather_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
-import 'package:weather/bloc/week_weather_bloc.dart';
+import 'package:weather/bloc/daily_weather_bloc.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:weather/view/daily_weak_weathers.dart';
 import 'package:weather/view/today_weather.dart';
@@ -31,12 +31,12 @@ class _CityWeatherDetailsState extends State<CityWeatherDetails> {
       backgroundColor: Colors.black,
       body: MultiBlocProvider(
         providers: [
-        BlocProvider (
-          create: (BuildContext context) => WeatherBloc (WeatherRepository())),
-        BlocProvider(
-          create: (BuildContext context) => DailyWeatherBloc(WeatherRepository())),
-        BlocProvider(
-          create: (BuildContext context) => HourlyWeatherBloc(WeatherRepository())),
+          BlocProvider (
+            create: (BuildContext context) => WeatherBloc (WeatherRepository())),
+          BlocProvider(
+            create: (BuildContext context) => HourlyWeatherBloc(WeatherRepository())),
+          BlocProvider(
+              create: (BuildContext context) => DailyWeatherBloc(WeatherRepository())),
         ],
         child: SingleChildScrollView(
           child: SafeArea(

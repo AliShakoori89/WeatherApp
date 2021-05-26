@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
-import 'package:weather/bloc/week_weather_bloc.dart';
+import 'package:weather/bloc/daily_weather_bloc.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:weather/view/city_weather_details.dart';

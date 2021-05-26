@@ -4,12 +4,28 @@
 
 import 'dart:convert';
 
-List<DailyWeatherModel> weekWeatherModelFromJson(String str) => List<DailyWeatherModel>.from(json.decode(str).map((x) => DailyWeatherModel.fromJson(x)));
+DailyWeatherModel weekWeatherModelFromJson(String str) => DailyWeatherModel.fromJson(json.decode(str));
 
-String weekWeatherModelToJson(List<DailyWeatherModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String weekWeatherModelToJson(DailyWeatherModel data) => json.encode(data.toJson());
 
 class DailyWeatherModel {
   DailyWeatherModel({
+    this.list,
+  });
+
+  List<ListElement> list;
+
+  factory DailyWeatherModel.fromJson(Map<String, dynamic> json) => DailyWeatherModel(
+    list: List<ListElement>.from(json["list"].map((x) => ListElement.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "list": List<dynamic>.from(list.map((x) => x.toJson())),
+  };
+}
+
+class ListElement {
+  ListElement({
     this.dt,
     this.main,
     this.weather,
@@ -33,7 +49,7 @@ class DailyWeatherModel {
   DateTime dtTxt;
   Rain rain;
 
-  factory DailyWeatherModel.fromJson(Map<String, dynamic> json) => DailyWeatherModel(
+  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
     dt: json["dt"],
     main: MainClass.fromJson(json["main"]),
     weather: List<Weather>.from(json["weather"].map((x) => Weather.fromJson(x))),

@@ -25,7 +25,7 @@ class ApiBaseHelper {
 
   Future<WeatherModel> getWeatherDataWithCityName(String cityName) async {
     final url = '$_baseUrl/data/2.5/weather?q=$cityName&appid=$apiKey';
-    // print ('fetching $url');
+
     final res = await http.get (Uri.parse (url));
     print ('getWeatherDataWithCityName ${json.decode (res.body)}');
     if(res.statusCode != 200){
@@ -37,9 +37,7 @@ class ApiBaseHelper {
 
   Future<DailyWeatherModel> DailygetForecast(String cityName) async {
     final url = '$_baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
-    print('fetchinggg $url');
     final res = await http.get(Uri.parse (url));
-    print('getForecast${json.decode(res.body)}');
     if (res.statusCode != 200) {
       throw FetchDataException("unable to fetch weather data");
     }
@@ -47,19 +45,18 @@ class ApiBaseHelper {
     var dic = weatherJson['list'];
     var details = new Map();
     details['list'] = dic;
-    print('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB$details');
+    print('QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ$details');
     return DailyWeatherModel.fromJson(details);
   }
 
   Future<HourlyWeatherModel> HourlygetForecast(String cityName) async {
     final url = '$_baseUrl/data/2.5/forecast?q=$cityName&appid=$apiKey';
-    print('fetchinggg $url');
     final res = await http.get(Uri.parse (url));
-    print('getForecast${json.decode(res.body)}');
     if (res.statusCode != 200) {
       throw FetchDataException("unable to fetch weather data");
     }
     final weatherJson = json.decode(res.body);
+    print('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB$weatherJson');
     return HourlyWeatherModel.fromJson(weatherJson);
   }
 
