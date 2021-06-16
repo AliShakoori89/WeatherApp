@@ -27,20 +27,48 @@ class FetchWeatherWithCityNameEvent extends WeatherEvent{
   List<Object> get props => [cityName];
 }
 
-// class FetchWeatherWithLocationEvent extends WeatherEvent{
-//   final double longitude;
-//   final double latitude;
-//
-//   FetchWeatherWithLocationEvent(this.longitude, this.latitude);
-//
-//   @override
-//   List<Object> get props => [longitude, latitude];
-// }
+
+class FetchWeatherWithCityLocationEvent extends WeatherEvent{
+  final double lat;
+  final double lon;
+
+  FetchWeatherWithCityLocationEvent(this.lat, this.lon);
+
+  @override
+  List<Object> get props => [lat, lon];
+}
+
+class SaveCityWeathersEvent extends WeatherEvent{
+  final CityModel cityWeathers;
+
+  SaveCityWeathersEvent(this.cityWeathers);
+
+  @override
+  List<Object> get props => [cityWeathers];
+}
 
 class AddCityForWeatherEvent extends WeatherEvent {
   final CityModel cityModel;
 
   AddCityForWeatherEvent(this.cityModel);
+
+  @override
+  List<Object> get props => [cityModel];
+}
+
+class DeleteCityForWeatherEvent extends WeatherEvent {
+  final String cityName;
+
+  DeleteCityForWeatherEvent(this.cityName);
+
+  @override
+  List<Object> get props => [cityName];
+}
+
+class UpdateCityWeatherEvent extends WeatherEvent{
+  final CityModel cityModel;
+
+  UpdateCityWeatherEvent(this.cityModel);
 
   @override
   List<Object> get props => [cityModel];
@@ -85,14 +113,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   @override
   Stream<WeatherState> mapEventToState(WeatherEvent event) async* {
-    if (event is FetchWeatherWithCityNameEvent) {
 
+    if (event is FetchWeatherWithCityNameEvent) {
       yield WeatherLoadingState();
       try {
         final WeatherModel weather = await weatherRepository.getWeatherWithCityName(
             event.cityName,
         );
-        print('FetchWeatherWithCityNameEvent WeatherEventbloc $weather');
         yield WeatherIsLoadedState(weather);
       } catch (exception) {
         print(exception);
@@ -104,30 +131,42 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       }
     }
 
-    // if(event is FetchWeatherWithLocationEvent){
-    //   yield WeatherLoadingState();
-    //   try {
-    //     final WeatherModel weather = await weatherRepository.getWeatherWithLocation(
-    //       event.latitude,
-    //       event.longitude
-    //     );
-    //     yield WeatherIsLoadedState(weather);
-    //   } catch (exception) {
-    //     print(exception);
-    //     if (exception is AppException) {
-    //       yield WeatherError(300);
-    //     } else {
-    //       yield WeatherError(500);
-    //     }
-    //   }
-    // }
+    if (event is FetchWeatherWithCityLocationEvent) {
+      yield WeatherLoadingState();
+      try {
+        final WeatherModel weather = await weatherRepository.getCityNameFromLocation(
+          event.lat, event.lon
+        );
+        yield WeatherIsLoadedState(weather);
+      } catch (exception) {
+        print(exception);
+        if (exception is AppException) {
+          yield WeatherError(300);
+        } else {
+          yield WeatherError(500);
+        }
+      }
+    }
+
+    if(event is SaveCityWeathersEvent){
+      await weatherRepository.saveCityWeatherDetailesRepo(event.cityWeathers);
+    }
+
+    if(event is DeleteCityForWeatherEvent){
+      await weatherRepository.deleteCityWeatherDetailesRepo(event.cityName);
+    }
 
     if(event is AddCityForWeatherEvent){
-      await weatherRepository.saveContactRepo(event.cityModel);
+      await weatherRepository.saveCityWeatherDetailesRepo(event.cityModel);
       final WeatherModel weather = await weatherRepository.getWeatherWithCityName(
         event.cityModel.toString(),
       );
       yield WeatherIsLoadedState(weather);
     }
+
+    if (event is UpdateCityWeatherEvent) {
+      await weatherRepository.updateCityWeatherRepo(event.cityModel);
+    }
+
   }
 }

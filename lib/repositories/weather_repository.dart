@@ -1,8 +1,6 @@
 import 'package:weather/database/database.dart';
 import 'package:weather/models/city_model.dart';
-import 'package:weather/models/daily_weather_model.dart';
 import 'package:weather/models/hourly_weather_model.dart';
-// import 'package:weather/models/week_weathers_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/networking/api_base_helper.dart';
 
@@ -12,37 +10,39 @@ class WeatherRepository {
 
   Future<WeatherModel> getWeatherWithCityName(String cityName) async {
     var weather = await _apiHelper.getWeatherDataWithCityName(cityName);
-    print('xxxxxxxxxxxxxxxxxxxgetWeatherWithCityName$weather');
     return weather;
   }
 
-  // Future<WeatherModel> getWeatherWithLocation(double latitude, double longitude) async{
-  //   var weather = await _apiHelper.getCityNameFromLocation(latitude, longitude);
-  //   return weather;
-  // }
-  //
-  Future<DailyWeatherModel> getForecastForDaily (String cityName) async{
+  Future<WeatherModel> getCityNameFromLocation(double lat, double lon) async {
+    var weather = await _apiHelper.getCityNameFromLocation(lat, lon);
+    return weather;
+  }
 
-    print('xxxxxxxxxxxddddddddddddddddailygetForecast');
-    var weathers = await _apiHelper.DailygetForecast(cityName);
-    print('xxxxdailygetForecast$weathers');
+  Future<WeatherDetailsModel> getForecastForHourlyWithCityName (String cityName) async{
+
+    var weathers = await _apiHelper.HourlygetForecastWithCityName(cityName);
     return weathers;
   }
 
-  Future<HourlyWeatherModel> getForecastForHourly (String cityName) async{
+  Future<WeatherDetailsModel> getForecastForHourlyWithCityLocation (double lat, double lon) async{
 
-    var weathers = await _apiHelper.HourlygetForecast(cityName);
-    print('xxxxhourlygetForecast$weathers');
+    var weathers = await _apiHelper.HourlygetForecastWithCityLocation(lat, lon);
     return weathers;
   }
 
-  // Future<WeekWeatherModel> getForcastWithLocation (double latitude, double longitude) async{
-  //   var weather = await _apiHelper.getForecastFromLocation(latitude, longitude);
-  //   return weather;
-  // }
 
-  Future<bool> saveContactRepo(CityModel cityModel) async {
+  Future saveCityWeatherDetailesRepo(CityModel cityModel) async {
     var helper = DatabaseHelper();
     return await helper.saveCityName(cityModel);
+  }
+
+  Future<int> deleteCityWeatherDetailesRepo(String name) async {
+    var helper = DatabaseHelper();
+    return await helper.deleteContact(name);
+  }
+
+  Future updateCityWeatherRepo(CityModel cityModel) async {
+    var helper = DatabaseHelper();
+    return await helper.updateCityWeather(cityModel);
   }
 }

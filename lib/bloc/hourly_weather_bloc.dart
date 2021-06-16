@@ -1,83 +1,106 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather/models/daily_weather_model.dart';
 import 'package:weather/models/hourly_weather_model.dart';
-// import 'package:weather/models/week_weathers_model.dart';
 import 'package:weather/networking/http_exception.dart';
 import 'package:weather/repositories/weather_repository.dart';
 
-class HourlyWeatherEvent extends Equatable {
+class WeatherDetailsEvent extends Equatable {
   @override
 
   List<Object> get props => [];
 }
 
-class HourlyWeatherState extends Equatable {
+class WeatherDetailsState extends Equatable {
   @override
 
   List<Object> get props => throw[];
 }
 
-class FetchHourlyWeathersWithGetForecastEvent extends HourlyWeatherEvent{
+class FetchWeathersDetailsWithCityName extends WeatherDetailsEvent{
   final String cityName;
 
-  FetchHourlyWeathersWithGetForecastEvent(this.cityName);
+  FetchWeathersDetailsWithCityName(this.cityName);
 
   @override
   List<Object> get props => [cityName];
 }
 
-class HourlyWeatherIsLoadedState extends HourlyWeatherState{
-  final HourlyWeatherModel _weather;
+class FetchWeathersDetailsWithCityLocation extends WeatherDetailsEvent{
+  final double lat;
+  final double lon;
 
-  HourlyWeatherIsLoadedState(this._weather);
+  FetchWeathersDetailsWithCityLocation(this.lat, this.lon);
 
-  HourlyWeatherModel get getWeather => _weather;
+  @override
+  List<Object> get props => [lat, lon];
+}
+
+class WeatherDetailsIsLoadedState extends WeatherDetailsState{
+  final WeatherDetailsModel _weather;
+
+  WeatherDetailsIsLoadedState(this._weather);
+
+  WeatherDetailsModel get getWeather => _weather;
 
   @override
   List<Object> get props => [_weather];
 }
 
-class HourlyWeatherError extends HourlyWeatherState {
+class WeatherDetailsError extends WeatherDetailsState {
   final int errorCode;
 
-  HourlyWeatherError(this.errorCode);
+  WeatherDetailsError(this.errorCode);
 
 }
 
-class HourlyWeatherLoadingState extends HourlyWeatherState {}
+class WeatherDetailsLoadingState extends WeatherDetailsState {}
 
-class HourlyWeatherIsNotLoadedState extends HourlyWeatherState {}
+class WeatherDetailsIsNotLoadedState extends WeatherDetailsState {}
 
-class HourlyWeatherEmpty extends HourlyWeatherState {}
+class WeatherDetailsEmpty extends WeatherDetailsState {}
 
-class HourlyWeatherBloc extends Bloc<HourlyWeatherEvent, HourlyWeatherState> {
+class WeatherDetailsBloc extends Bloc<WeatherDetailsEvent, WeatherDetailsState> {
   WeatherRepository weatherRepository;
-  HourlyWeatherBloc(this.weatherRepository) : super(HourlyWeatherIsNotLoadedState());
+  WeatherDetailsBloc(this.weatherRepository) : super(WeatherDetailsIsNotLoadedState());
 
   @override
-  HourlyWeatherState get initialState {
-    return HourlyWeatherEmpty();
+  WeatherDetailsState get initialState {
+    return WeatherDetailsEmpty();
   }
 
   @override
-  Stream<HourlyWeatherState> mapEventToState(HourlyWeatherEvent event) async* {
-    if (event is FetchHourlyWeathersWithGetForecastEvent) {
+  Stream<WeatherDetailsState> mapEventToState(WeatherDetailsEvent event) async* {
 
-      yield HourlyWeatherLoadingState();
+    if (event is FetchWeathersDetailsWithCityName) {
+
+      yield WeatherDetailsLoadingState();
       try {
-        print('FetchWeathersWithGetForecastEvent WeekWeatherEventbloc');
-        final HourlyWeatherModel weather = await weatherRepository.getForecastForHourly(
+        final WeatherDetailsModel weather = await weatherRepository.getForecastForHourlyWithCityName(
             event.cityName
         );
-        print('FetchWeathersWithGetForecastEvent WeekWeatherEventbloccc  $weather');
-
-        yield HourlyWeatherIsLoadedState(weather);
+        yield WeatherDetailsIsLoadedState(weather);
       } catch (exception) {
         if (exception is AppException) {
-          yield HourlyWeatherError(300);
+          yield WeatherDetailsError(300);
         } else {
-          yield HourlyWeatherError(500);
+          yield WeatherDetailsError(500);
+        }
+      }
+    }
+
+    if (event is FetchWeathersDetailsWithCityLocation) {
+
+      yield WeatherDetailsLoadingState();
+      try {
+        final WeatherDetailsModel weather = await weatherRepository.getForecastForHourlyWithCityLocation(
+            event.lat, event.lon
+        );
+        yield WeatherDetailsIsLoadedState(weather);
+      } catch (exception) {
+        if (exception is AppException) {
+          yield WeatherDetailsError(300);
+        } else {
+          yield WeatherDetailsError(500);
         }
       }
     }

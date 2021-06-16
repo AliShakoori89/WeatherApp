@@ -3,22 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/bloc/weather_bloc.dart';
+import 'package:weather/models/city_model.dart';
+import 'package:weather/view/search_screen.dart';
 import 'package:weather/wind_icons.dart';
 
-class TodayWeather extends StatefulWidget {
+class TodayWeatherWithCityName extends StatefulWidget {
 
   final String cityName;
-  TodayWeather(this.cityName);
+  TodayWeatherWithCityName(this.cityName);
 
   @override
-  _TodayWeatherState createState() => _TodayWeatherState(cityName);
+  _TodayWeatherWithCityNameState createState() => _TodayWeatherWithCityNameState(cityName);
 }
 
-class _TodayWeatherState extends State<TodayWeather> {
+class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
 
   final String cityName;
 
-  _TodayWeatherState(this.cityName);
+  _TodayWeatherWithCityNameState(this.cityName);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,6 @@ class _TodayWeatherState extends State<TodayWeather> {
       }
       if (state is WeatherIsLoadedState){
 
-        var fm = new DateFormat('HH:mm a');
         var temp = state.getWeather.main.temp;
         var name = state.getWeather.name;
         var weather = state.getWeather.weather;
@@ -42,9 +43,12 @@ class _TodayWeatherState extends State<TodayWeather> {
         var minTemp = state.getWeather.main.tempMin;
         var wind = state.getWeather.wind.speed;
         var sunrise = state.getWeather.sys.sunrise;
-        var sunset = state.getWeather.sys.sunset;
+        var feelsLike = state.getWeather.main.feelsLike;
+        var id = state.getWeather.id;
+        var time = state.getWeather.dt;
 
-        // addDoubleToSF(lat,lon);
+        print('temp$temp');
+
         return Column(
           children: [
             Align(
@@ -52,24 +56,59 @@ class _TodayWeatherState extends State<TodayWeather> {
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: MediaQuery.of(context).size.height/50,
-                    top: MediaQuery.of(context).size.height/50,
+                    top: MediaQuery.of(context).size.height/80,
                   ),
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.location_on, color: Colors.white, size: 20,),
-                          SizedBox(width: MediaQuery.of(context).size.height/150,),
-                          Text(name, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),),
+                          Row(
+                            children: [
+                              Icon(Icons.location_on, color: Colors.white, size: 20,),
+                              SizedBox(width: MediaQuery.of(context).size.height/150,),
+                              Text(name, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right:  MediaQuery.of(context).size.height/50,),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.add, color: Colors.white, size: 20),
+                                    onPressed: (){
+                                      CityModel cityModel = CityModel();
+                                      cityModel.id = id;
+                                      cityModel.name = name;
+                                      cityModel.feelsLike = feelsLike;
+                                      cityModel.temp = temp;
+                                      cityModel.tempMax = maxTemp;
+                                      cityModel.tempMin = minTemp;
+                                      cityModel.time = time;
+                                      cityModel.icon = weather[0].icon;
+                                      final weatherBloc =
+                                      BlocProvider.of<WeatherBloc>(context);
+                                      weatherBloc.add(SaveCityWeathersEvent(cityModel));
+                                      Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
                         ],
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.height/30
+                            left: MediaQuery.of(context).size.height/100
                         ),
                         child: Align(
                           alignment: Alignment.topLeft,
-                          child: Text('${new DateFormat.yMMMMd().format(DateTime.now())}',
+                          child:
+                            Text('${new DateFormat.MMMMEEEEd().format(DateTime(time))}',
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 12)),
                         ),
                       )
@@ -86,8 +125,6 @@ class _TodayWeatherState extends State<TodayWeather> {
                 children: <Widget>[
                     SvgPicture.asset(
                         "assets/svgs/"+"${weather[0].icon}"+".svg", width: 70.0,),
-                  // Image.network(
-                  //     'https://api.openweathermap.org/img/w/${weather[0].iconCode}.png'),),
                   SizedBox(
                     width: MediaQuery.of(context).size.height / 80,
                   ),
@@ -275,7 +312,7 @@ class _TodayWeatherState extends State<TodayWeather> {
                     ],
                   ),
                 ),
-                color: Colors.grey[850],),
+                color: Colors.grey[850].withOpacity(0.5),),
             )
           ],
         );
@@ -286,14 +323,12 @@ class _TodayWeatherState extends State<TodayWeather> {
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       }
-      return Text("Nothing", style: TextStyle(fontSize: 25, color: Colors.white));
+      return Center(child: Text("Nothing", style: TextStyle(fontSize: 25, color: Colors.white)));
     });
   }
-
 
   fahrenheitToCelsius( double degree ){
     int celsious = (degree - 273.15).toInt();
     return celsious;
   }
-
 }

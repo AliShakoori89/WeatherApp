@@ -7,6 +7,12 @@ final table = 'my_table';
 
 final columnId = 'id';
 final columnName = 'name';
+final columnTemp = 'temp';
+final columnIcon = 'icon';
+final columnTempMax = 'tempMax';
+final columnTempMin = 'tempMin';
+final columnFeelsLike = 'feelsLike';
+final columnTime = 'time';
 
 class DatabaseHelper {
 
@@ -35,68 +41,69 @@ class DatabaseHelper {
       await db.execute (
           'CREATE TABLE $table ( '
               ' $columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,'
-              ' $columnName TEXT NOT NULL)');
+              ' $columnName TEXT NOT NULL ,'
+              ' $columnFeelsLike REAL ,'
+              ' $columnIcon TEXT ,'
+              ' $columnTemp REAL ,'
+              ' $columnTempMax REAL ,'
+              ' $columnTempMin REAL ,'
+              ' $columnTime INTEGER)');
     });
   }
 
   Future<bool> saveCityName(CityModel cityModel) async {
-    var myContact = await database;
-    await myContact.insert (
-        CityModel.TABLENAME,cityModel.toMap (),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-    print ('aaaaaaaaaaaaaaaaaaaaaaa${cityModel.toMap ()}');
+    var myCityDB = await database;
+    await myCityDB.insert ("my_table", cityModel.toMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace);
     return true;
   }
 
-  Future<List> getAllContacts() async {
-    var myContact = await database;
-    List listMap = await myContact.rawQuery (
+  Future<List> getAllCityWeather() async {
+    var myCityDB = await database;
+    List listMap = await myCityDB.rawQuery (
         'SELECT * FROM my_table');
-    var listContact = <CityModel>[];
+    var listCityWeather = <CityModel>[];
     for (Map m in listMap) {
-      listContact.add (CityModel.fromMap (m));
+      listCityWeather.add (CityModel.fromMap (m));
     }
-    return listContact;
+    return listCityWeather;
   }
 
-  getContact(int id) async {
-    var myContact = await database;
-    var result = await myContact.query ("my_table", where:"$columnId=?",whereArgs: [id]);
-    print(result);
-    return  CityModel.fromMap (result.first) ;
+  Future<CityModel> fetchCityName(int id) async {
+    var myCityDB = await database;
+    var result = await myCityDB.query ("my_table", where:"id = ?",whereArgs: [id]);
+    return CityModel.fromMap(result.first);
   }
 
   Future close() async {
-    var myContact = await instance.database;
-    return myContact.close (
+    var myCityDB = await instance.database;
+    return myCityDB.close (
     );
   }
 
-  Future<int> deleteContact(int id) async {
+  Future<int> deleteContact(String name) async {
     print("id is too delete");
-    print(id);
-    var dbContact = await database;
-    return await dbContact.delete("my_table", where: '$columnId = ?', whereArgs: [id]);
+    print(name);
+    var myCityDB = await database;
+    return await myCityDB.delete("my_table", where: '$columnName = ?', whereArgs: [name]);
   }
 
   Future<int> isFavorite(CityModel contact) async {
-    var dbContact = await database;
-    return await dbContact.update("my_table", contact.toMap(),
+    var myCityDB = await database;
+    return await myCityDB.update("my_table", contact.toMap(),
         where: '$columnId = ?', whereArgs: [contact.id]);
   }
 
-  Future<int> updateContact(CityModel contact) async {
-    print('database ${contact.id}');
-    var dbContact = await database;
-    return await dbContact.update("my_table", contact.toMap(),
-        where: '$columnId = ?', whereArgs: [contact.id]);
+  Future<int> updateCityWeather(CityModel cityModel) async {
+    var myCityDB = await database;
+    return await myCityDB.update("my_table", cityModel.toMap(),
+        where: '$columnName = ?', whereArgs: [cityModel.name]);
   }
 
   Future<List> fetchFavorite() async {
-    var myContact = await database;
-    List listMap = await myContact.rawQuery (
+    var myCityDB = await database;
+    List listMap = await myCityDB.rawQuery (
         'SELECT * FROM my_table WHERE favorite = ?', ['1']);
-    print('listMap====== $listMap');
     var listContact = <CityModel>[];
     for (Map m in listMap) {
       listContact.add (CityModel.fromMap (m));
