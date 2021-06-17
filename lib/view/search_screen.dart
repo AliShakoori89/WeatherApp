@@ -102,7 +102,7 @@ class _SearchPageState extends State<SearchPage> {
                     offset: Offset(0, 50),
                     icon: Padding(
                       padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 20
+                        top: MediaQuery.of(context).size.height / 15
                       ),
                       child: Icon(Icons.menu, color: Colors.black87),
                     ),
