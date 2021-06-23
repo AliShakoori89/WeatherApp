@@ -30,8 +30,7 @@ class WeatherRepository {
     return weathers;
   }
 
-
-  Future saveCityWeatherDetailesRepo(CityModel cityModel) async {
+  Future<bool> saveCityWeatherDetailesRepo(CityModel cityModel) async {
     var helper = DatabaseHelper();
     return await helper.saveCityName(cityModel);
   }
@@ -44,5 +43,16 @@ class WeatherRepository {
   Future updateCityWeatherRepo(CityModel cityModel) async {
     var helper = DatabaseHelper();
     return await helper.updateCityWeather(cityModel);
+  }
+
+  Future<List> fetchAllDataCityWeatherRepo() async {
+    var helper = DatabaseHelper();
+    // var cities = await helper.getAllCityWeather();
+    // cities.forEach((element) {
+    //   CityModel city = new CityModel();
+    //   city = element;
+    //   print(city.name);
+    // });
+    return await helper.getAllCityWeather();
   }
 }

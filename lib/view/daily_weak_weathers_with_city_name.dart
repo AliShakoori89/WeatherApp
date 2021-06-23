@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:weather/bloc/hourly_weather_bloc.dart';
+import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
+import 'package:weather/convert/convert_temperature.dart';
 
 class DailyWeekWeathersWithCityName extends StatefulWidget {
 
@@ -51,7 +52,7 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
                           ),
                         ),
                         Text(
-                          '${fahrenheitToCelsius(daily[index].main.tempMax)}°C',
+                          '${ConvertTemperature().fahrenheitToCelsius(daily[index].main.tempMax)}°C',
 
                           style: TextStyle(
                               color: Colors.red,
@@ -60,7 +61,7 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
                         ),
                         SizedBox(height: MediaQuery.of(context).size.height / 150),
                         Text(
-                          '${fahrenheitToCelsius(daily[index].main.tempMin)}°C',
+                          '${ConvertTemperature().fahrenheitToCelsius(daily[index].main.tempMin)}°C',
                           style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.w300,
@@ -84,10 +85,5 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
         return Text("Nothing", style: TextStyle(fontSize: 25, color: Colors.white));
     }
     );
-  }
-
-  fahrenheitToCelsius( double degree ){
-    int celsious = (degree - 273.15).toInt();
-    return celsious;
   }
 }

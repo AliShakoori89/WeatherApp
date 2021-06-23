@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/bloc/cities_summery_container_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
+import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/models/city_model.dart';
 import 'package:weather/view/search_screen.dart';
 import 'package:weather/wind_icons.dart';
@@ -47,8 +49,6 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
         var id = state.getWeather.id;
         var time = state.getWeather.dt;
 
-        print('temp$temp');
-
         return Column(
           children: [
             Align(
@@ -67,11 +67,13 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                             children: [
                               Icon(Icons.location_on, color: Colors.white, size: 20,),
                               SizedBox(width: MediaQuery.of(context).size.height/150,),
-                              Text(name, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),),
+                              Text(name, style: TextStyle(fontSize: 20, color: Colors.white,
+                                  fontWeight: FontWeight.w300),),
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right:  MediaQuery.of(context).size.height/50,),
+                            padding: EdgeInsets.only(
+                              right:  MediaQuery.of(context).size.height/50,),
                             child: Center(
                               child: Row(
                                 children: [
@@ -87,9 +89,8 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                                       cityModel.tempMin = minTemp;
                                       cityModel.time = time;
                                       cityModel.icon = weather[0].icon;
-                                      final weatherBloc =
-                                      BlocProvider.of<WeatherBloc>(context);
-                                      weatherBloc.add(SaveCityWeathersEvent(cityModel));
+                                      final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
+                                      citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
                                       Navigator.push(
                                       context,
                                       MaterialPageRoute(builder: (context) => SearchScreen()));
@@ -103,12 +104,13 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.height/100
+                            left: MediaQuery.of(context).size.height/35
                         ),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child:
-                            Text('${new DateFormat.MMMMEEEEd().format(DateTime(time))}',
+                            Text('${DateFormat('E, ha').format(
+                                DateTime.fromMillisecondsSinceEpoch(time * 1000))}',
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 12)),
                         ),
                       )
@@ -148,13 +150,13 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                   top: MediaQuery.of(context).size.height/50,
                   bottom: MediaQuery.of(context).size.height/120),
               child: Text(
-                fahrenheitToCelsius(temp).toString() + '°C',
+                '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
                 style: TextStyle(fontSize: 80, color: Colors.white, fontWeight: FontWeight.w100),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height/20),
+                  bottom: MediaQuery.of(context).size.height/50),
               child: Container(
                 width: MediaQuery.of(context).size.height/2,
                 height: MediaQuery.of(context).size.height/10,
@@ -249,7 +251,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                               children: [
                                 Icon(Icons.arrow_upward_sharp, color: Colors.red, size: 18,),
                                 SizedBox(width: MediaQuery.of(context).size.height/100,),
-                                Text('${fahrenheitToCelsius(maxTemp)}°C',
+                                Text('${ConvertTemperature().fahrenheitToCelsius(maxTemp)}°C',
                                   style: TextStyle(color: Colors.white,
                                       fontWeight: FontWeight.w300,
                                       fontSize: 13),),
@@ -263,7 +265,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                               children: [
                                 Icon(Icons.arrow_downward, color: Colors.blue, size: 18),
                                 SizedBox(width: MediaQuery.of(context).size.height/100,),
-                                Text('${fahrenheitToCelsius(minTemp)}°C',
+                                Text('${ConvertTemperature().fahrenheitToCelsius(minTemp)}°C',
                                   style: TextStyle(color: Colors.white,
                                       fontWeight: FontWeight.w300,
                                       fontSize: 13),),
@@ -325,10 +327,5 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
       }
       return Center(child: Text("Nothing", style: TextStyle(fontSize: 25, color: Colors.white)));
     });
-  }
-
-  fahrenheitToCelsius( double degree ){
-    int celsious = (degree - 273.15).toInt();
-    return celsious;
   }
 }

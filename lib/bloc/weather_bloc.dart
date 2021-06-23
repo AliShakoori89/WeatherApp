@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather/models/city_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/networking/http_exception.dart';
 import 'package:weather/repositories/weather_repository.dart';
@@ -37,44 +36,6 @@ class FetchWeatherWithCityLocationEvent extends WeatherEvent{
   @override
   List<Object> get props => [lat, lon];
 }
-
-class SaveCityWeathersEvent extends WeatherEvent{
-  final CityModel cityWeathers;
-
-  SaveCityWeathersEvent(this.cityWeathers);
-
-  @override
-  List<Object> get props => [cityWeathers];
-}
-
-class AddCityForWeatherEvent extends WeatherEvent {
-  final CityModel cityModel;
-
-  AddCityForWeatherEvent(this.cityModel);
-
-  @override
-  List<Object> get props => [cityModel];
-}
-
-class DeleteCityForWeatherEvent extends WeatherEvent {
-  final String cityName;
-
-  DeleteCityForWeatherEvent(this.cityName);
-
-  @override
-  List<Object> get props => [cityName];
-}
-
-class UpdateCityWeatherEvent extends WeatherEvent{
-  final CityModel cityModel;
-
-  UpdateCityWeatherEvent(this.cityModel);
-
-  @override
-  List<Object> get props => [cityModel];
-}
-
-
 
 class WeatherIsLoadedState extends WeatherState{
   final WeatherModel _weather;
@@ -147,26 +108,5 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         }
       }
     }
-
-    if(event is SaveCityWeathersEvent){
-      await weatherRepository.saveCityWeatherDetailesRepo(event.cityWeathers);
-    }
-
-    if(event is DeleteCityForWeatherEvent){
-      await weatherRepository.deleteCityWeatherDetailesRepo(event.cityName);
-    }
-
-    if(event is AddCityForWeatherEvent){
-      await weatherRepository.saveCityWeatherDetailesRepo(event.cityModel);
-      final WeatherModel weather = await weatherRepository.getWeatherWithCityName(
-        event.cityModel.toString(),
-      );
-      yield WeatherIsLoadedState(weather);
-    }
-
-    if (event is UpdateCityWeatherEvent) {
-      await weatherRepository.updateCityWeatherRepo(event.cityModel);
-    }
-
   }
 }

@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather/bloc/hourly_weather_bloc.dart';
+import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
+import 'package:weather/convert/convert_temperature.dart';
 
 class HourlyWeekWeathersWithCityName extends StatefulWidget {
 
@@ -55,7 +56,7 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
                       ),
                     ),
                     Text(
-                      '${fahrenheitToCelsius(hourly[index].main.temp)}°C',
+                      '${ConvertTemperature().fahrenheitToCelsius(hourly[index].main.temp)}°C',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w300,
@@ -77,11 +78,6 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
         return Text("Nothing",
             style: TextStyle(fontSize: 25, color: Colors.white));
     });
-  }
-
-  fahrenheitToCelsius( double degree ){
-    int celsious = (degree - 273.15).toInt();
-    return celsious;
   }
 
   getLat() async {
