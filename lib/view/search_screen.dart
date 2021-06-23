@@ -47,67 +47,99 @@ class _SearchScreenState extends State<SearchScreen> {
               elevation: 0.0,
               actions: [
                 //list if widget in appbar actions
-                PopupMenuButton(
-                  icon: Icon(Icons.menu, color: Colors.black87),//don't specify icon if you want 3 dot menu
-                    color: Colors.black54.withOpacity(0.2),
-                    itemBuilder: (context) {
-                      return List.generate(1, (index) {
-                        return PopupMenuItem(
-                          child: InkWell(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.help,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                    width: MediaQuery.of(context).size.height / 30),
-                                Center(child: Text('Help')),
-                              ],
-                            ),
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      insetPadding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context).size.height / 3,
-                                        left: MediaQuery.of(context).size.height / 30,
-                                        right: MediaQuery.of(context).size.height / 30,
-                                      ),
-                                      actions: [
-                                        Center(
-                                          child: ElevatedButton(
-                                              style:
-                                              ElevatedButton.styleFrom(
-                                                primary: Colors.white30,
-                                                onPrimary: Colors.black,
-                                                shape: const BeveledRectangleBorder(
-                                                    borderRadius: BorderRadius.all(Radius.circular(25))),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text('ok')),
-                                        )
-                                      ],
-                                      content: Text(
-                                          'Just longpress on the city card to '
-                                              'delete the weather summary'),
-                                      backgroundColor:
-                                      Colors.grey.withOpacity(0.5),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(25)),
-                                    );
-                                  });
-                            },
+                IconButton(icon: Icon(Icons.help,color: Colors.white),
+                onPressed: (){
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          insetPadding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height / 4,
+                            left: MediaQuery.of(context).size.height / 30,
+                            right: MediaQuery.of(context).size.height / 30,
                           ),
+                          actions: [
+                            Center(
+                              child: ElevatedButton(
+                                  style:
+                                  ElevatedButton.styleFrom(
+                                    primary: Colors.white30,
+                                    onPrimary: Colors.black,
+                                    shape: const BeveledRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('ok')),
+                            )
+                          ],
+                          content: Text(
+                              'Just longpress on the city card to '
+                                  'delete the weather summary'),
+                          backgroundColor:
+                          Colors.grey,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(25)),
                         );
                       });
-                    }
-
+                },
                 ),
+                // PopupMenuButton(
+                //   icon: Icon(
+                //     Icons.help,
+                //     color: Colors.white,
+                //   ),//don't specify icon if you want 3 dot menu
+                //     color: Colors.black54.withOpacity(0.2),
+                //     itemBuilder: (context) {
+                //       return List.generate(1, (index) {
+                //         return PopupMenuItem(
+                //           child: InkWell(
+                //             child: Icon(Icons.help,color: Colors.white,),
+                //             onTap: () {
+                //               showDialog(
+                //                   context: context,
+                //                   builder: (context) {
+                //                     return AlertDialog(
+                //                       insetPadding: EdgeInsets.only(
+                //                         bottom: MediaQuery.of(context).size.height / 3,
+                //                         left: MediaQuery.of(context).size.height / 30,
+                //                         right: MediaQuery.of(context).size.height / 30,
+                //                       ),
+                //                       actions: [
+                //                         Center(
+                //                           child: ElevatedButton(
+                //                               style:
+                //                               ElevatedButton.styleFrom(
+                //                                 primary: Colors.white30,
+                //                                 onPrimary: Colors.black,
+                //                                 shape: const BeveledRectangleBorder(
+                //                                     borderRadius: BorderRadius.all(Radius.circular(25))),
+                //                               ),
+                //                               onPressed: () {
+                //                                 Navigator.pop(context);
+                //                               },
+                //                               child: Text('ok')),
+                //                         )
+                //                       ],
+                //                       content: Text(
+                //                           'Just longpress on the city card to '
+                //                               'delete the weather summary'),
+                //                       backgroundColor:
+                //                       Colors.grey.withOpacity(0.5),
+                //                       shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                           BorderRadius.circular(25)),
+                //                     );
+                //                   });
+                //             },
+                //           ),
+                //         );
+                //       });
+                //     }
+                //
+                // ),
               ],
           ),
           body: Container(
