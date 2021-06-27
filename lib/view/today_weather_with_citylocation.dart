@@ -51,7 +51,7 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
           children: [
             Padding(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 150,
+                top: MediaQuery.of(context).size.height / 50,
                 left: MediaQuery.of(context).size.height / 150
               ),
               child: Row(
