@@ -158,8 +158,12 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height/50),
               child: Container(
-                width: MediaQuery.of(context).size.height/2,
-                height: MediaQuery.of(context).size.height/10,
+                decoration: BoxDecoration(
+                    color: Colors.grey[850].withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(25)
+                ),
+                width: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height/8.9,
                 child: Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height/90,
@@ -314,7 +318,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                     ],
                   ),
                 ),
-                color: Colors.grey[850].withOpacity(0.5),),
+              ),
             )
           ],
         );

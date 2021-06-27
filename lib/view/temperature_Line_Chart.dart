@@ -50,9 +50,6 @@ class _TemperatureLineChartState extends State<TemperatureLineChart> {
                   shouldAlwaysShow: false,
                   activationMode: ActivationMode.singleTap,
                 ),
-                // Chart title
-                title: ChartTitle(text: 'Half yearly sales analysis'),
-                // Enable legend
                 selectionType: SelectionType.series,
                 isTransposed: false,
                 selectionGesture: ActivationMode.singleTap,

@@ -57,7 +57,7 @@ class _CityWeatherDetailsWithNameState extends State<CityWeatherDetailsWithName>
                           borderRadius: BorderRadius.circular(25)
                       ),
                       width: MediaQuery.of(context).size.height,
-                      height: MediaQuery.of(context).size.height/1.98,
+                      height: MediaQuery.of(context).size.height/1.9,
                       child: Directionality(
                         textDirection: ui.TextDirection.ltr,
                         child: TodayWeatherWithCityName(cityName),
