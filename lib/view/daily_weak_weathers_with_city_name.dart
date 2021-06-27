@@ -82,7 +82,7 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       }else
-        return Text("Nothing", style: TextStyle(fontSize: 25, color: Colors.white));
+        return Text("", style: TextStyle(fontSize: 25, color: Colors.white));
     }
     );
   }

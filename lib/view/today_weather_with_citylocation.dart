@@ -44,108 +44,76 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
         var minTemp = state.getWeather.main.tempMin;
         var wind = state.getWeather.wind.speed;
         var sunrise = state.getWeather.sys.sunrise;
+        var time = state.getWeather.dt;
         var feelsLike = state.getWeather.main.feelsLike;
 
         return Column(
           children: [
-            Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.height/50,
-                    top: MediaQuery.of(context).size.height/80,
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.location_on, color: Colors.white, size: 20,),
-                          SizedBox(width: MediaQuery.of(context).size.height/150,),
-                          Text(name, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300),),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height/100,
-                            left: MediaQuery.of(context).size.height/30
-                        ),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text('${new DateFormat.Md().add_jm().format(DateTime.now())}',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 12)),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-            ),
             Padding(
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.height / 8,
-                top: MediaQuery.of(context).size.height / 50,
-              ),
-              child: Row(
-                children: <Widget>[
-                  SvgPicture.asset(
-                    "assets/svgs/"+"${weather[0].icon}"+".svg", width: 70.0,),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.height / 80,
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        '${weather[0].main}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        '${weather[0].description}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.height / 8,
-                top: MediaQuery.of(context).size.height / 50,
+                top: MediaQuery.of(context).size.height / 150,
+                left: MediaQuery.of(context).size.height / 150
               ),
               child: Row(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height/50,
-                        bottom: MediaQuery.of(context).size.height/120),
-                    child: Text(
-                      ConvertTemperature().fahrenheitToCelsius(temp).toString() + '°C',
-                      style: TextStyle(fontSize: 80, color: Colors.white, fontWeight: FontWeight.w100),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height/20,
-                      left: MediaQuery.of(context).size.height/50,
-                    ),
-                    child: Column(
-                      children: [
-                        Text('feels like', style: TextStyle(color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 13),),
-                        SizedBox(height: MediaQuery.of(context).size.height/200),
-                        Text('${ConvertTemperature().fahrenheitToCelsius(feelsLike)}°C',
-                          style: TextStyle(color: Colors.white,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13),),
-                      ],
-                    ),
-                  ),
+                  Icon(Icons.location_on, color: Colors.white, size: 20,),
+                  SizedBox(width: MediaQuery.of(context).size.height/150,),
+                  Text(name, style: TextStyle(fontSize: 20, color: Colors.white,
+                      fontWeight: FontWeight.w300),),
                 ],
               ),
             ),
+            Padding(
+              padding: EdgeInsets.only(left: MediaQuery.of(context).size.height / 30),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text('${DateFormat('E, ha').format(
+                    DateTime.fromMillisecondsSinceEpoch(time * 1000))}',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 12)),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SvgPicture.asset(
+                  "assets/svgs/"+"${weather[0].icon}"+".svg", width: 70.0,),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 80,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      '${weather[0].main}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      '${weather[0].description}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 50,
+            ),
+            Text(
+              '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
+              style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w100),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 30,
+            ),
             Container(
-              width: MediaQuery.of(context).size.height/2,
-              height: MediaQuery.of(context).size.height/10,
+              decoration: BoxDecoration(
+                  color: Colors.grey[850].withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(25)
+              ),
+              width: MediaQuery.of(context).size.width/1.05,
+              height: MediaQuery.of(context).size.height/8.9,
               child: Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height/90,
@@ -161,8 +129,7 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height/200,
-                                  left: MediaQuery.of(context).size.height/500),
+                                top: MediaQuery.of(context).size.height/200,),
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Container(
@@ -300,7 +267,7 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
                   ],
                 ),
               ),
-              color: Colors.grey[850].withOpacity(0.5),)
+            )
           ],
         );
       }

@@ -86,60 +86,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       });
                 },
                 ),
-                // PopupMenuButton(
-                //   icon: Icon(
-                //     Icons.help,
-                //     color: Colors.white,
-                //   ),//don't specify icon if you want 3 dot menu
-                //     color: Colors.black54.withOpacity(0.2),
-                //     itemBuilder: (context) {
-                //       return List.generate(1, (index) {
-                //         return PopupMenuItem(
-                //           child: InkWell(
-                //             child: Icon(Icons.help,color: Colors.white,),
-                //             onTap: () {
-                //               showDialog(
-                //                   context: context,
-                //                   builder: (context) {
-                //                     return AlertDialog(
-                //                       insetPadding: EdgeInsets.only(
-                //                         bottom: MediaQuery.of(context).size.height / 3,
-                //                         left: MediaQuery.of(context).size.height / 30,
-                //                         right: MediaQuery.of(context).size.height / 30,
-                //                       ),
-                //                       actions: [
-                //                         Center(
-                //                           child: ElevatedButton(
-                //                               style:
-                //                               ElevatedButton.styleFrom(
-                //                                 primary: Colors.white30,
-                //                                 onPrimary: Colors.black,
-                //                                 shape: const BeveledRectangleBorder(
-                //                                     borderRadius: BorderRadius.all(Radius.circular(25))),
-                //                               ),
-                //                               onPressed: () {
-                //                                 Navigator.pop(context);
-                //                               },
-                //                               child: Text('ok')),
-                //                         )
-                //                       ],
-                //                       content: Text(
-                //                           'Just longpress on the city card to '
-                //                               'delete the weather summary'),
-                //                       backgroundColor:
-                //                       Colors.grey.withOpacity(0.5),
-                //                       shape: RoundedRectangleBorder(
-                //                           borderRadius:
-                //                           BorderRadius.circular(25)),
-                //                     );
-                //                   });
-                //             },
-                //           ),
-                //         );
-                //       });
-                //     }
-                //
-                // ),
               ],
           ),
           body: Container(
@@ -439,10 +385,15 @@ class _SearchPageState extends State<SearchPage> {
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
                         onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CityWeatherDetailsWithName(
-                                  this.cityNameController.text)));
+                          // FocusScope.of(context).unfocus();
+                          if (this.cityNameController.text.isNotEmpty) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CityWeatherDetailsWithName(
+                                    this.cityNameController.text)));
+                          } else {
+                            Scaffold.of(context)
+                                .showSnackBar(SnackBar(content: Text('Please enter city name before press search icon')));
+                          }
                         },
                         icon: Icon(
                           Icons.search,

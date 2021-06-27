@@ -75,7 +75,7 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       } else
-        return Text("Nothing",
+        return Text("",
             style: TextStyle(fontSize: 25, color: Colors.white));
     });
   }
