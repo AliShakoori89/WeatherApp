@@ -61,7 +61,7 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
         style: TextStyle(fontSize: 25, color: Colors.white),
       );
     }else
-      return Text("We have trouble fetching weather for $cityName", style: TextStyle(fontSize: 25, color: Colors.white));
+      return Center(child: Text("We have trouble fetching weather for $cityName", style: TextStyle(fontSize: 16, color: Colors.black54)));
     });
   }
 }

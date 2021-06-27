@@ -307,7 +307,14 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       }
-      return Center(child: Text("Please enter true city name \n \n or \n \n check Internet connection", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300)));
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Please enter true city name", style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300)),
+          Text("or", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300)),
+          Text("Please check your internet connection", style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300))
+        ],
+      );
     });
   }
 }
