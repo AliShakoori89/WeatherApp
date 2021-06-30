@@ -5,6 +5,8 @@ import 'package:geolocator/geolocator.dart' as Geo;
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:shape_of_view/shape_of_view.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:weather/bloc/cities_summery_container_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
 import 'package:weather/convert/convert_temperature.dart';
@@ -399,9 +401,21 @@ class _SearchPageState extends State<SearchPage> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => CityWeatherDetailsWithName(
                                     this.cityNameController.text)));
-                          } else {
-                            Scaffold.of(context)
-                                .showSnackBar(SnackBar(content: Text('Please enter city name before press search icon')));
+                          }else {
+                            showTopSnackBar(
+                              context,
+                              CustomSnackBar.info(
+                                message:
+                                "Please enter city name before press search icon",
+                                textStyle: TextStyle(color: (int.parse(formattedTime) < 12)
+                                    ? Colors.black54
+                                    : Colors.white,
+                                ),
+                                backgroundColor: (int.parse(formattedTime) < 12)
+                                    ? Colors.white
+                                    : Colors.black54,
+                              ),
+                            );
                           }
                         },
                         icon: Icon(

@@ -46,6 +46,7 @@ dependencies:
   responsive_builder: ^0.4.1
   flutter_spinkit: ^4.1.2
   location: ^4.3.0
+  top_snackbar_flutter: ^1.0.0
 
 flutter_icons:
   ios: true
