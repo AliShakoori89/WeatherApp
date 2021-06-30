@@ -58,34 +58,35 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
                   minTemp.add(ConvertTemperature().fahrenheitToCelsius(state.getWeather.list[i].main.tempMin));
             }
           }
-          return Wrap(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height / 50,
-                  left: MediaQuery.of(context).size.height / 50,
-                ),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'DAILY Chart',
-                      style: TextStyle(
-                          color: Colors.black87, fontSize: 13.0),
-                    )),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 80,
-              ),
-              Center(
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(25)),
-                    width: MediaQuery.of(context).size.width/1.05,
-                    height: MediaQuery.of(context).size.height / 3.5,
-                    child: TemperatureLineChart(date, maxTemp, minTemp)),
-              ),
-            ],
+          return Container(
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(25)),
+              width: MediaQuery.of(context).size.width/1.05,
+              height: MediaQuery.of(context).size.height / 2.1,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 50,
+                      left: MediaQuery.of(context).size.height / 50,
+                    ),
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'DAILY Chart',
+                          style: TextStyle(
+                              color: (int.parse(formattedTime) < 18)
+                                  ? Colors.black54
+                                  : Colors.white, fontSize: 13.0),
+                        )),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 80,
+                  ),
+                  TemperatureLineChart(date, maxTemp, minTemp)
+                ],
+              )
           );
 
     }else

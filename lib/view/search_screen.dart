@@ -407,11 +407,11 @@ class _SearchPageState extends State<SearchPage> {
                               CustomSnackBar.info(
                                 message:
                                 "Please enter city name before press search icon",
-                                textStyle: TextStyle(color: (int.parse(formattedTime) < 12)
+                                textStyle: TextStyle(color: (int.parse(formattedTime) < 18)
                                     ? Colors.black54
                                     : Colors.white,
                                 ),
-                                backgroundColor: (int.parse(formattedTime) < 12)
+                                backgroundColor: (int.parse(formattedTime) < 18)
                                     ? Colors.white
                                     : Colors.black54,
                               ),

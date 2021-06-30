@@ -23,6 +23,10 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
 
   @override
   Widget build(BuildContext context) {
+
+    DateTime now = DateTime.now();
+    String formattedTime = DateFormat('kk').format(now);
+    
     final weatherBloc = BlocProvider.of<WeatherDetailsBloc>(context);
     weatherBloc.add(FetchWeathersDetailsWithCityName(cityName));
 
@@ -36,73 +40,75 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
 
         var daily = state.getWeather.list;
 
-        return Wrap(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 50,
-                left: MediaQuery.of(context).size.height / 50,
+        return Container(
+          decoration: BoxDecoration(
+              color: Colors.grey[900].withOpacity(0.5),
+              borderRadius: BorderRadius.circular(25)),
+          width: MediaQuery.of(context).size.width/1.05,
+          height: MediaQuery.of(context).size.height / 4.2,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height / 50,
+                  left: MediaQuery.of(context).size.height / 50,
+                ),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'DAILY',
+                      style: TextStyle(
+                          color: (int.parse(formattedTime) < 18)
+                              ? Colors.white
+                              : Colors.black54, fontSize: 13.0),
+                    )),
               ),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'DAILY',
-                    style: TextStyle(
-                        color: Colors.black87, fontSize: 13.0),
-                  )),
-            ),
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey[900].withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(25)),
-                width: MediaQuery.of(context).size.width/1.05,
-                height: MediaQuery.of(context).size.height / 4.8,
+              Expanded(
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
                     itemCount: daily.length,
                     itemBuilder: (context, index){
-                          return SizedBox(
-                            width: MediaQuery.of(context).size.height / 10,
-                            child: Column(
-                              children: [
-                                SizedBox(height: MediaQuery.of(context).size.height / 150),
-                                Container(
-                                  width: MediaQuery.of(context).size.height / 12,
-                                  height: MediaQuery.of(context).size.height / 12,
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      "assets/svgs/"+daily[index].weather[0].icon+".svg", width: 40.0, cacheColorFilter: true,),
-                                  ),
-                                ),
-                                Text(
-                                  '${ConvertTemperature().fahrenheitToCelsius(daily[index].main.tempMax)}°C',
-
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 13),
-                                ),
-                                SizedBox(height: MediaQuery.of(context).size.height / 150),
-                                Text(
-                                  '${ConvertTemperature().fahrenheitToCelsius(daily[index].main.tempMin)}°C',
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 13),
-                                ),
-                                SizedBox(height: MediaQuery.of(context).size.height / 60),
-                                Text('${DateFormat('MM-dd').format( DateTime.fromMillisecondsSinceEpoch(daily[index].dt* 1000))}', style: TextStyle(color: Colors.white,
-                                    fontSize: 13, fontWeight: FontWeight.w300),
-                                ),
-                              ],
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.height / 10,
+                        child: Column(
+                          children: [
+                            SizedBox(height: MediaQuery.of(context).size.height / 150),
+                            Container(
+                              width: MediaQuery.of(context).size.height / 12,
+                              height: MediaQuery.of(context).size.height / 12,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/svgs/"+daily[index].weather[0].icon+".svg", width: 40.0, cacheColorFilter: true,),
+                              ),
                             ),
-                          );
-                    }),
+                            Text(
+                              '${ConvertTemperature().fahrenheitToCelsius(daily[index].main.tempMax)}°C',
+
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.height / 150),
+                            Text(
+                              '${ConvertTemperature().fahrenheitToCelsius(daily[index].main.tempMin)}°C',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.height / 60),
+                            Text('${DateFormat('MM-dd').format( DateTime.fromMillisecondsSinceEpoch(daily[index].dt* 1000))}', style: TextStyle(color: Colors.white,
+                                fontSize: 13, fontWeight: FontWeight.w300),
+                            ),
+                          ],
+                        ),
+                      );
+                    })
               ),
-            ),
-          ],
+            ],
+          )
         );
       }else
       if (state is WeatherDetailsIsNotLoadedState){
