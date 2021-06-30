@@ -384,12 +384,17 @@ class _SearchPageState extends State<SearchPage> {
                 child: Container(
                   width: MediaQuery.of(context).size.height / 2.1,
                   child: TextField(
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (value){
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CityWeatherDetailsWithName(
+                              this.cityNameController.text)));
+                    },
                     focusNode: focusNode,
                     maxLines: null,
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
                         onPressed: () {
-                          // FocusScope.of(context).unfocus();
                           if (this.cityNameController.text.isNotEmpty) {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => CityWeatherDetailsWithName(

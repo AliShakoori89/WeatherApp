@@ -30,6 +30,9 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
   @override
   Widget build(BuildContext context) {
 
+    DateTime now = DateTime.now();
+    String formattedTime = DateFormat('kk').format(now);
+
     final weatherBloc = BlocProvider.of<WeatherBloc>(context);
     weatherBloc.add(FetchWeatherWithCityNameEvent(cityName));
 
@@ -99,11 +102,19 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
         );
       }
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Please enter true city name", style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300)),
-          Text("or", style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w300)),
-          Text("Please check your internet connection", style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300))
+          SizedBox(height: MediaQuery.of(context).size.height / 4 ,),
+          Text("Please enter true city name", style: TextStyle(fontSize: 15, color: (int.parse(formattedTime) < 18)
+              ? Colors.black87
+              : Colors.white, fontWeight: FontWeight.w300)),
+          Text("or", style: TextStyle(fontSize: 20, color: (int.parse(formattedTime) < 18)
+              ? Colors.black87
+              : Colors.white, fontWeight: FontWeight.w300)),
+          Text("Please check your internet connection", style: TextStyle(fontSize: 15, color: (int.parse(formattedTime) < 18)
+              ? Colors.black87
+              : Colors.white, fontWeight: FontWeight.w300))
         ],
       );
     });
