@@ -48,23 +48,23 @@ class _CityWeatherDetailsWithCityLocationState extends State<CityWeatherDetailsW
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height/80,
+                      height: 20,
                     ),
                     TodayWeatherWithCityLocation(lat, lon),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height/80,
+                      height: 20,
                     ),
                     HourlyWeekWeathersWithCityLocation(lat, lon),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height/80,
+                      height: 20,
                     ),
                     DailyWeekWeathersWithCityLocation(lat, lon),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height/80,
+                      height: 20,
                     ),
                     TemperatureChartWithCityLocation(lat, lon),
                     SizedBox(
-                        height: MediaQuery.of(context).size.height / 50
+                        height: 20
                     )
                   ],
                 ),

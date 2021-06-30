@@ -476,16 +476,14 @@ class _SearchPageState extends State<SearchPage> {
             child: IconButton(
               icon: Icon(
                 Icons.location_on,
-                size: 22,
+                size: 30,
               ),
               color: (int.parse(formattedTime) < 18)
                   ? Colors.black87
                   : Colors.white,
               onPressed: () async {
 
-                _currentPosition = new Geo.Position(longitude: 10, latitude: 20,
-                    timestamp: DateTime.now() , accuracy: 25,
-                    altitude: 20 , heading: 20, speed: 0, speedAccuracy: 0);
+                FocusScope.of(context);
 
                 bool serviceStatusResult = await location.requestService();
 

@@ -36,8 +36,9 @@ class _TemperatureLineChartState extends State<TemperatureLineChart> {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
+          height: MediaQuery.of(context).size.height / 4,
+            width: MediaQuery.of(context).size.height / 1.05,
             child: SfCartesianChart(
-
               primaryXAxis: CategoryAxis(
                 isVisible: true,
                 opposedPosition: false,

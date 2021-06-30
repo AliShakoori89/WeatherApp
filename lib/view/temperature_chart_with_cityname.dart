@@ -63,7 +63,7 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
                   color: Colors.white.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(25)),
               width: MediaQuery.of(context).size.width/1.05,
-              height: MediaQuery.of(context).size.height / 2.1,
+              height: MediaQuery.of(context).size.height / 3.2,
               child: Column(
                 children: [
                   Padding(
@@ -76,9 +76,7 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
                         child: Text(
                           'DAILY Chart',
                           style: TextStyle(
-                              color: (int.parse(formattedTime) < 18)
-                                  ? Colors.black54
-                                  : Colors.white, fontSize: 13.0),
+                              color: Colors.black54, fontSize: 13.0),
                         )),
                   ),
                   SizedBox(

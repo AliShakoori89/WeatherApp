@@ -62,8 +62,8 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
                       'HOURLY',
                       style: TextStyle(
                           color: (int.parse(formattedTime) < 18)
-                              ? Colors.white
-                              : Colors.black54, fontSize: 13.0),
+                              ? Colors.black54
+                              : Colors.white, fontSize: 13.0),
                     )),
               ),
               SizedBox(
@@ -108,7 +108,7 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
         );
       } else if (state is WeatherDetailsIsNotLoadedState) {
         return Text(
-          'City not Found',
+          '',
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       } else

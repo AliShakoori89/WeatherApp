@@ -84,11 +84,11 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
               Center(
                 child: Text(
                   '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
-                  style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w400),
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 30,
+                height: MediaQuery.of(context).size.height / 15,
               ),
               todayWeatherDetailsWidget(context, pressure, humidity, maxTemp, minTemp, wind, sunrise)
             ],
@@ -97,7 +97,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
       }
       if (state is WeatherIsNotLoadedState){
         return Text(
-          'City not Found',
+          '',
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       }
@@ -336,14 +336,17 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
               );
   }
 
-  Row cityNameIcon(BuildContext context, String name) {
-    return Row(
-                children: [
-                  Icon(Icons.location_on, color: Colors.white, size: 20,),
-                  SizedBox(width: MediaQuery.of(context).size.height/150,),
-                  Text(name, style: TextStyle(fontSize: 20, color: Colors.white,
-                      fontWeight: FontWeight.w300),),
-                ],
-              );
+  Padding cityNameIcon(BuildContext context, String name) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+                  children: [
+                    Icon(Icons.location_on, color: Colors.white, size: 20,),
+                    SizedBox(width: MediaQuery.of(context).size.height/150,),
+                    Text(name, style: TextStyle(fontSize: 20, color: Colors.white,
+                        fontWeight: FontWeight.w300),),
+                  ],
+                ),
+    );
   }
 }

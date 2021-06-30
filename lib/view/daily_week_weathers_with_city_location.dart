@@ -61,8 +61,8 @@ class _DailyWeekWeathersWithCityLocationState extends State<DailyWeekWeathersWit
                       'DAILY',
                       style: TextStyle(
                           color: (int.parse(formattedTime) < 18)
-                              ? Colors.white
-                              : Colors.black54, fontSize: 13.0),
+                              ? Colors.black54
+                              : Colors.white, fontSize: 13.0),
                     )),
               ),
               Expanded(
@@ -116,11 +116,11 @@ class _DailyWeekWeathersWithCityLocationState extends State<DailyWeekWeathersWit
       }else
       if (state is WeatherDetailsIsNotLoadedState){
         return Text(
-          'City not Found',
+          '',
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       }else
-        return Text("Nothing", style: TextStyle(fontSize: 25, color: Colors.white));
+        return Text("", style: TextStyle(fontSize: 25, color: Colors.white));
     }
     );
   }

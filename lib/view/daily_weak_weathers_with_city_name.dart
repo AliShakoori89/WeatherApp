@@ -26,7 +26,7 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
 
     DateTime now = DateTime.now();
     String formattedTime = DateFormat('kk').format(now);
-    
+
     final weatherBloc = BlocProvider.of<WeatherDetailsBloc>(context);
     weatherBloc.add(FetchWeathersDetailsWithCityName(cityName));
 
@@ -59,8 +59,8 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
                       'DAILY',
                       style: TextStyle(
                           color: (int.parse(formattedTime) < 18)
-                              ? Colors.white
-                              : Colors.black54, fontSize: 13.0),
+                              ? Colors.black54
+                              : Colors.white, fontSize: 13.0),
                     )),
               ),
               Expanded(
@@ -113,7 +113,7 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
       }else
       if (state is WeatherDetailsIsNotLoadedState){
         return Text(
-          'City not Found',
+          '',
           style: TextStyle(fontSize: 25, color: Colors.white),
         );
       }else
