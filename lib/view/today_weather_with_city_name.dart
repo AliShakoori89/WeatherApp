@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/bloc/cities_summery_container_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:weather/bloc/weather_bloc.dart';
 import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/models/city_model.dart';
 import 'package:weather/models/weather_model.dart';
+import 'package:weather/p_icons.dart';
 import 'package:weather/view/search_screen.dart';
 import 'package:weather/wind_icons.dart';
 
@@ -33,7 +35,9 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
 
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state){
       if (state is WeatherLoadingState){
-        return Center(child: CircularProgressIndicator());
+        return Center(
+            // child: SpinKitCircle(color: Colors.white)
+        );
       }
       if (state is WeatherIsLoadedState){
 
@@ -50,32 +54,42 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
         var id = state.getWeather.id;
         var time = state.getWeather.dt;
 
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                cityNameIcon(context, name),
-                addIcon(context, id, name, feelsLike, temp, maxTemp, minTemp, time, weather)
-              ],
-            ),
-            todayTimeWidget(context, time),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
-            ),
-            weatherIconAndWeatherDescriptionWidget(weather, context),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 50,
-            ),
-            Text(
-              '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
-              style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w100),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
-            ),
-            todayWeatherDetailsWidget(context, pressure, humidity, maxTemp, minTemp, wind, sunrise)
-          ],
+        return Container(
+          decoration: BoxDecoration(
+              color: Colors.grey[900].withOpacity(0.5),
+              borderRadius: BorderRadius.circular(25)
+          ),
+          width: MediaQuery.of(context).size.width/1.05,
+          height: MediaQuery.of(context).size.height/2.5,
+          child: Wrap(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  cityNameIcon(context, name),
+                  addIcon(context, id, name, feelsLike, temp, maxTemp, minTemp, time, weather)
+                ],
+              ),
+              todayTimeWidget(context, time),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 30,
+              ),
+              weatherIconAndWeatherDescriptionWidget(weather, context),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 50,
+              ),
+              Center(
+                child: Text(
+                  '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
+                  style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w100),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 30,
+              ),
+              todayWeatherDetailsWidget(context, pressure, humidity, maxTemp, minTemp, wind, sunrise)
+            ],
+          ),
         );
       }
       if (state is WeatherIsNotLoadedState){
@@ -109,7 +123,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                   bottom: MediaQuery.of(context).size.height/90
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +132,6 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                       humidityWidget(context, humidity),
                     ],
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.height/40,),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -126,7 +139,6 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                       minTemperatureWidget(context, minTemp)
                     ],
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.height/25,),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -143,7 +155,8 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
   Padding sunriseWidget(BuildContext context, int sunrise) {
     return Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height/200,),
+              top: MediaQuery.of(context).size.height/200,
+              right: MediaQuery.of(context).size.height/40,),
             child: Row(
               children: [
                 Icon(Icons.wb_sunny, color: Colors.orange,),
@@ -158,13 +171,11 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
   Padding windInformationWidget(BuildContext context, double wind) {
     return Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height/200,),
+              top: MediaQuery.of(context).size.height/500,
+            right: MediaQuery.of(context).size.height/40,),
             child: Row(
               children: [
                 Icon(WindIcon.wind, color: Colors.blue[300],),
-                SizedBox(width: MediaQuery.of(context).size.height/200,),
-                Text('Wind', style: TextStyle(color: Colors.white,
-                    fontSize: 13, fontWeight: FontWeight.w300),),
                 SizedBox(width: MediaQuery.of(context).size.height/100,),
                 Text('$wind',
                   style: TextStyle(color: Colors.white,
@@ -220,7 +231,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                 Icon(Icons.opacity, color: Colors.blue,),
                 Align(
                     alignment: Alignment.bottomLeft,
-                    child: Text('humidity  $humidity %' ,
+                    child: Text('$humidity %' ,
                       style: TextStyle(color: Colors.white,
                           fontWeight: FontWeight.w300,
                           fontSize: 13),)),
@@ -229,57 +240,19 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
           );
   }
 
-  Row pressureWidget(BuildContext context, int pressure) {
-    return Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height/200,),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height/40,
-                    width: MediaQuery.of(context).size.height/40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      border: Border.all(color: Colors.redAccent),
-                      color: Colors.grey[850],
-                    ),
-                    child: Padding(
-                        padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height/300,),
-                        child: Column(
-                          children: [
-                            Icon(Icons.arrow_downward, size: 6, color: Colors.redAccent,),
-                            Icon(Icons.waves, size: 6, color: Colors.redAccent,),
-                          ],
-                        )
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height/200,
-                    left: MediaQuery.of(context).size.height/150),
-                child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Text(pressure.toString(),style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300,
-                        fontSize: 13))),
-              ),
-              Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height/200,
-                        left: MediaQuery.of(context).size.height/150),
-                    child: Text('hpa',
-                      style: TextStyle(color: Colors.white,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 13),),
-                  )
-              ),
-            ],
+  Padding pressureWidget(BuildContext context, int pressure) {
+    return Padding(
+      padding: EdgeInsets.only(
+          left: MediaQuery.of(context).size.height/30,
+      top: MediaQuery.of(context).size.height/180),
+      child: Row(
+              children: [
+                Icon(P.tachometer_alt, color: Colors.red[300],size: 18,),
+                SizedBox(width: MediaQuery.of(context).size.height/150,),
+                Text(pressure.toString(),style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300,
+                    fontSize: 13))
+              ],
+      ),
     );
   }
 

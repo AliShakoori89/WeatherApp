@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/bloc/weather_bloc.dart';
@@ -32,7 +33,9 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
 
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state){
       if (state is WeatherLoadingState){
-        return Center(child: CircularProgressIndicator());
+        return Center(
+            // child: SpinKitCircle(color: Colors.white)
+        );
       }
       if (state is WeatherIsLoadedState){
 
@@ -48,23 +51,31 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
         var time = state.getWeather.dt;
         var feelsLike = state.getWeather.main.feelsLike;
 
-        return Column(
-          children: [
-            cityNameAndIconWidget(context, name),
-            todayTimeWidget(context, time),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
-            ),
-            weatherIconAndDescriptionWidget(weather, context),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 50,
-            ),
-            todayTemperatureWidget(temp),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
-            ),
-            weatherDetailsWidget(context, pressure, humidity, maxTemp, minTemp, wind, sunrise)
-          ],
+        return Container(
+          decoration: BoxDecoration(
+              color: Colors.grey[900].withOpacity(0.5),
+              borderRadius: BorderRadius.circular(25)
+          ),
+          width: MediaQuery.of(context).size.width/1.05,
+          height: MediaQuery.of(context).size.height/2.5,
+          child: Wrap(
+            children: [
+              cityNameAndIconWidget(context, name),
+              todayTimeWidget(context, time),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 30,
+              ),
+              weatherIconAndDescriptionWidget(weather, context),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 50,
+              ),
+              todayTemperatureWidget(temp),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 30,
+              ),
+              weatherDetailsWidget(context, pressure, humidity, maxTemp, minTemp, wind, sunrise)
+            ],
+          ),
         );
       }
       if (state is WeatherIsNotLoadedState){
@@ -265,11 +276,13 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
                     );
   }
 
-  Text todayTemperatureWidget(double temp) {
-    return Text(
-            '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
-            style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w100),
-          );
+  Center todayTemperatureWidget(double temp) {
+    return Center(
+      child: Text(
+              '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
+              style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w100),
+            ),
+    );
   }
 
   Row weatherIconAndDescriptionWidget(List<Weather> weather, BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
 import 'package:weather/convert/convert_temperature.dart';
@@ -32,7 +33,9 @@ class _TemperatureChartWithCityLocationState extends State<TemperatureChartWithC
     return BlocBuilder<WeatherDetailsBloc, WeatherDetailsState>(builder: (context, state){
 
       if (state is WeatherDetailsLoadingState){
-        return Center(child: CircularProgressIndicator());
+        return Center(child: SizedBox(
+            height: MediaQuery.of(context).size.height / 3,
+            child: SpinKitCircle(color: Colors.black54)));
       }else
       if (state is WeatherDetailsIsLoadedState){
         List<String> date = [];
@@ -53,7 +56,35 @@ class _TemperatureChartWithCityLocationState extends State<TemperatureChartWithC
             minTemp.add(ConvertTemperature().fahrenheitToCelsius(state.getWeather.list[i].main.tempMin));
           }
         }
-        return TemperatureLineChart(date, maxTemp, minTemp);
+        return Wrap(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height / 50,
+                left: MediaQuery.of(context).size.height / 50,
+              ),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'DAILY Chart',
+                    style: TextStyle(
+                        color: Colors.black, fontSize: 13.0),
+                  )),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 80,
+            ),
+            Center(
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(25)),
+                  width: MediaQuery.of(context).size.width/1.05,
+                  height: MediaQuery.of(context).size.height / 3.5,
+                  child: TemperatureLineChart(date, maxTemp, minTemp)),
+            ),
+          ],
+        );
 
       }else
       if (state is WeatherDetailsIsNotLoadedState){

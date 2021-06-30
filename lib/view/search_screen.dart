@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart' as Geo;
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:shape_of_view/shape_of_view.dart';
 import 'package:weather/bloc/cities_summery_container_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
@@ -117,8 +118,11 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
+  var position = new Geo.Position();
   final TextEditingController cityNameController = TextEditingController();
-  Position _currentPosition;
+  Geo.Position _currentPosition;
+  final Location location = Location();
 
   @override
   Widget build(BuildContext context) {
@@ -460,20 +464,28 @@ class _SearchPageState extends State<SearchPage> {
                   : Colors.white,
               onPressed: () async {
 
-                await Geolocator.getCurrentPosition(
-                    desiredAccuracy: LocationAccuracy.best,
-                    forceAndroidLocationManager: true)
-                    .then((Position position) {
-                  setState(() {
-                    _currentPosition = position;
-                  });
-                }).catchError((e) {
-                  print(e);
-                });
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CityWeatherDetailsWithCityLocation(
-                        _currentPosition.latitude,
-                        _currentPosition.longitude)));
+                _currentPosition = new Geo.Position(longitude: 10, latitude: 20,
+                    timestamp: DateTime.now() , accuracy: 25,
+                    altitude: 20 , heading: 20, speed: 0, speedAccuracy: 0);
+
+                bool serviceStatusResult = await location.requestService();
+
+                 if (serviceStatusResult){
+                   await Geo.Geolocator.getCurrentPosition(
+                       desiredAccuracy: Geo.LocationAccuracy.best,
+                       forceAndroidLocationManager: true)
+                       .then((Geo.Position position) {
+                     setState(() {
+                       _currentPosition = position;
+                     });
+                   }).catchError((e) {
+                     print(e);
+                   });
+                   Navigator.of(context).push(MaterialPageRoute(
+                       builder: (context) => CityWeatherDetailsWithCityLocation(
+                           _currentPosition.latitude,
+                           _currentPosition.longitude)));
+                 }
               },
             ),
           )

@@ -50,102 +50,19 @@ class _CityWeatherDetailsWithCityLocationState extends State<CityWeatherDetailsW
                     SizedBox(
                       height: MediaQuery.of(context).size.height/80,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[900].withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(25)
-                      ),
-                      width: MediaQuery.of(context).size.width/1.05,
-                      height: MediaQuery.of(context).size.height/2.1,
-                      child: Directionality(
-                        textDirection: ui.TextDirection.ltr,
-                        child: TodayWeatherWithCityLocation(lat, lon),
-                      ),
-                    ),
+                    TodayWeatherWithCityLocation(lat, lon),
                     SizedBox(
                       height: MediaQuery.of(context).size.height/80,
                     ),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[900].withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(25)),
-                        width: MediaQuery.of(context).size.width/1.05,
-                        height: MediaQuery.of(context).size.height/5,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height / 50,
-                                left: MediaQuery.of(context).size.height / 50,
-                              ),
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'HOURLY',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13.0),
-                                  )),
-                            ),
-                            Expanded(child: HourlyWeekWeathersWithCityLocation(lat, lon))
-                          ],
-                        )
-                    ),
+                    HourlyWeekWeathersWithCityLocation(lat, lon),
                     SizedBox(
                       height: MediaQuery.of(context).size.height/80,
                     ),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[900].withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(25)),
-                        width: MediaQuery.of(context).size.width/1.05,
-                        height: MediaQuery.of(context).size.height / 3.5,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height / 50,
-                                left: MediaQuery.of(context).size.height / 50,
-                              ),
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'DAILY',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13.0),
-                                  )),
-                            ),
-                            Expanded(child: DailyWeekWeathersWithCityLocation(lat, lon)),
-                          ],
-                        )
-                    ),
+                    DailyWeekWeathersWithCityLocation(lat, lon),
                     SizedBox(
                       height: MediaQuery.of(context).size.height/80,
                     ),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(25)),
-                        width: MediaQuery.of(context).size.width/1.05,
-                        height: MediaQuery.of(context).size.height / 3.5,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height / 50,
-                                left: MediaQuery.of(context).size.height / 50,
-                              ),
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'DAILY Chart',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 13.0),
-                                  )),
-                            ),
-                            Expanded(child: TemperatureChartWithCityLocation(lat, lon)),
-                          ],
-                        )
-                    ),
+                    TemperatureChartWithCityLocation(lat, lon),
                     SizedBox(
                         height: MediaQuery.of(context).size.height / 50
                     )

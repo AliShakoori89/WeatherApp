@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,43 +33,74 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
 
     return BlocBuilder<WeatherDetailsBloc, WeatherDetailsState>(builder: (context, state){
       if (state is WeatherDetailsLoadingState){
-        return Center(child: CircularProgressIndicator());
+        return Center(
+            // child: SpinKitCircle(color: Colors.white)
+        );
       }else if (state is WeatherDetailsIsLoadedState) {
 
         var hourly = state.getWeather.list;
 
-        return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            itemCount: hourly.length - 20,
-            itemBuilder: (context, index) {
-              return SizedBox(
-                width: MediaQuery.of(context).size.height / 10,
-                child: Column(
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height / 150),
-                    Container(
-                      width: MediaQuery.of(context).size.height / 12,
-                      height: MediaQuery.of(context).size.height / 12,
-                      child: Center(
-                          child: SvgPicture.asset(
-                            "assets/svgs/"+hourly[index].weather[0].icon+".svg", width: 40.0, cacheColorFilter: false,),
-                      ),
-                    ),
-                    Text(
-                      '${ConvertTemperature().fahrenheitToCelsius(hourly[index].main.temp)}°C',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 13),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height / 150),
-                    Text('${DateFormat('h:m a').format( DateTime.fromMillisecondsSinceEpoch(hourly[index].dt* 1000))}', style: TextStyle(color: Colors.white,
-                      fontSize: 13, fontWeight: FontWeight.w300),),
-                  ],
-                )
-              );
-            });
+        return Wrap(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height / 50,
+                left: MediaQuery.of(context).size.height / 50,
+              ),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'HOURLY',
+                    style: TextStyle(
+                        color: Colors.black87, fontSize: 13.0),
+                  )),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 100,
+            ),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[900].withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(25)),
+                width: MediaQuery.of(context).size.width/1.05,
+                height: MediaQuery.of(context).size.height/5.5,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: hourly.length - 20,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.height / 10,
+                        child: Column(
+                          children: [
+                            SizedBox(height: MediaQuery.of(context).size.height / 150),
+                            Container(
+                              width: MediaQuery.of(context).size.height / 12,
+                              height: MediaQuery.of(context).size.height / 12,
+                              child: Center(
+                                  child: SvgPicture.asset(
+                                    "assets/svgs/"+hourly[index].weather[0].icon+".svg", width: 40.0, cacheColorFilter: false,),
+                              ),
+                            ),
+                            Text(
+                              '${ConvertTemperature().fahrenheitToCelsius(hourly[index].main.temp)}°C',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13),
+                            ),
+                            SizedBox(height: MediaQuery.of(context).size.height / 150),
+                            Text('${DateFormat('h:m a').format( DateTime.fromMillisecondsSinceEpoch(hourly[index].dt* 1000))}', style: TextStyle(color: Colors.white,
+                              fontSize: 13, fontWeight: FontWeight.w300),),
+                          ],
+                        )
+                      );
+                    }),
+              ),
+            ),
+          ],
+        );
       } else if (state is WeatherDetailsIsNotLoadedState) {
         return Text(
           'City not Found',
