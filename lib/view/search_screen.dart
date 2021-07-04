@@ -178,7 +178,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
         SizedBox(height: MediaQuery.of(context).size.height / 100),
         cityInput(context, widget.hintText, widget.focusNode, formattedTime),
-        SizedBox(height: MediaQuery.of(context).size.height / 20,),
+        SizedBox(height: MediaQuery.of(context).size.height / 100,),
         BlocBuilder<CitiesWeathersSummeryBloc, CitiesWeathersSummeryState>(builder: (context, state){
           if (state is CitiesWeathersSummeryIsLoadingState){
             return Center(child: CircularProgressIndicator());
@@ -198,7 +198,6 @@ class _SearchPageState extends State<SearchPage> {
                         child: InkWell(
                           child: Container(
                             width: MediaQuery.of(context).size.height / 5,
-                            height: MediaQuery.of(context).size.height / 12,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
                               color: Colors.grey[800].withOpacity(0.6),

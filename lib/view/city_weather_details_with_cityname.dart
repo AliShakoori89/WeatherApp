@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/view/temperature_chart_with_cityname.dart';
 import 'package:weather/view/daily_weak_weathers_with_city_name.dart';
-import 'dart:ui' as ui;
 import 'package:weather/view/hourly_week_weathers_with_city_name.dart';
 import 'package:weather/view/today_weather_with_city_name.dart';
 

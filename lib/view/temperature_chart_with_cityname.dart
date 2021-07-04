@@ -34,9 +34,10 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
     return BlocBuilder<WeatherDetailsBloc, WeatherDetailsState>(builder: (context, state){
 
     if (state is WeatherDetailsLoadingState){
-    return Center(child: SizedBox(
-        height: MediaQuery.of(context).size.height / 3,
-        child: SpinKitCircle(color: Colors.black54)));
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: SpinKitCircle(color: Colors.white),
+    );
     }else
     if (state is WeatherDetailsIsLoadedState){
       print(state.getWeather.list[0].dt);
@@ -59,6 +60,10 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
             }
           }
           return Container(
+              margin: const EdgeInsets.only(
+                  left: 15.0,
+                  right: 15.0,
+              ),
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(25)),

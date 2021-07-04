@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:weather/view/daily_week_weathers_with_city_location.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_location.dart';
 import 'package:weather/view/temperature_chart_with_citylocation.dart';
-import 'dart:ui' as ui;
 import 'package:weather/view/today_weather_with_citylocation.dart';
 
 

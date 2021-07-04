@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/bloc/cities_summery_container_bloc.dart';
@@ -38,9 +37,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
 
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state){
       if (state is WeatherLoadingState){
-        return Center(
-            // child: SpinKitCircle(color: Colors.white)
-        );
+        return Center();
       }
       if (state is WeatherIsLoadedState){
 
@@ -58,12 +55,14 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
         var time = state.getWeather.dt;
 
         return Container(
+          margin: const EdgeInsets.only(
+            left: 15.0,
+            right: 15.0,
+          ),
           decoration: BoxDecoration(
               color: Colors.grey[900].withOpacity(0.5),
               borderRadius: BorderRadius.circular(25)
           ),
-          width: MediaQuery.of(context).size.width/1.05,
-          height: MediaQuery.of(context).size.height/2.5,
           child: Wrap(
             children: [
               Row(

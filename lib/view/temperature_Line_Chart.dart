@@ -66,31 +66,31 @@ class _TemperatureLineChartState extends State<TemperatureLineChart> {
                 // Enable tooltip
                 tooltipBehavior: _tooltipBehavior,
 
-                series: <LineSeries<SalesData, String>>[
-                  LineSeries<SalesData, String>(
-                      dataSource:  <SalesData>[
-                        SalesData(date[0], maxTemp[0]),
-                        SalesData(date[1], maxTemp[1]),
-                        SalesData(date[2], maxTemp[2]),
-                        SalesData(date[3], maxTemp[3]),
-                        SalesData(date[4], maxTemp[4]),
+                series: <LineSeries<DateWeather, String>>[
+                  LineSeries<DateWeather, String>(
+                      dataSource:  <DateWeather>[
+                        DateWeather(date[0], maxTemp[0]),
+                        DateWeather(date[1], maxTemp[1]),
+                        DateWeather(date[2], maxTemp[2]),
+                        DateWeather(date[3], maxTemp[3]),
+                        DateWeather(date[4], maxTemp[4]),
                       ],
-                      xValueMapper: (SalesData sales, _) => sales.date,
-                      yValueMapper: (SalesData sales, _) => sales.temp,
+                      xValueMapper: (DateWeather sales, _) => sales.date,
+                      yValueMapper: (DateWeather sales, _) => sales.temp,
                       // Enable data label
                       dataLabelSettings: DataLabelSettings(isVisible: false),
                     markerSettings: MarkerSettings(isVisible: true),
                   ),
-                  LineSeries<SalesData, String>(
-                      dataSource:  <SalesData>[
-                        SalesData(date[0], minTemp[0]),
-                        SalesData(date[1], minTemp[1]),
-                        SalesData(date[2], minTemp[2]),
-                        SalesData(date[3], minTemp[3]),
-                        SalesData(date[4], minTemp[4]),
+                  LineSeries<DateWeather, String>(
+                      dataSource:  <DateWeather>[
+                        DateWeather(date[0], minTemp[0]),
+                        DateWeather(date[1], minTemp[1]),
+                        DateWeather(date[2], minTemp[2]),
+                        DateWeather(date[3], minTemp[3]),
+                        DateWeather(date[4], minTemp[4]),
                       ],
-                      xValueMapper: (SalesData sales, _) => sales.date,
-                      yValueMapper: (SalesData sales, _) => sales.temp,
+                      xValueMapper: (DateWeather sales, _) => sales.date,
+                      yValueMapper: (DateWeather sales, _) => sales.temp,
                       // Enable data label
                       dataLabelSettings: DataLabelSettings(isVisible: false),
 
@@ -103,8 +103,8 @@ class _TemperatureLineChartState extends State<TemperatureLineChart> {
   }
 }
 
-class SalesData {
-  SalesData(this.date, this.temp);
+class DateWeather {
+  DateWeather(this.date, this.temp);
   final String date;
   final int temp;
 }

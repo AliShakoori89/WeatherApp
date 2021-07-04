@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
@@ -34,15 +33,17 @@ class _DailyWeekWeathersWithCityLocationState extends State<DailyWeekWeathersWit
 
     return BlocBuilder<WeatherDetailsBloc, WeatherDetailsState>(builder: (context, state){
       if (state is WeatherDetailsLoadingState){
-        return Center(
-            // child: SpinKitCircle(color: Colors.white)
-        );
+        return Center();
       }else
       if (state is WeatherDetailsIsLoadedState){
 
         var daily = state.getWeather.list;
 
         return Container(
+            margin: const EdgeInsets.only(
+                left: 15.0,
+                right: 15.0,
+            ),
           decoration: BoxDecoration(
               color: Colors.grey[900].withOpacity(0.5),
               borderRadius: BorderRadius.circular(25)),
@@ -60,9 +61,7 @@ class _DailyWeekWeathersWithCityLocationState extends State<DailyWeekWeathersWit
                     child: Text(
                       'DAILY',
                       style: TextStyle(
-                          color: (int.parse(formattedTime) < 18)
-                              ? Colors.black54
-                              : Colors.white, fontSize: 13.0),
+                          color: Colors.white, fontSize: 13.0),
                     )),
               ),
               Expanded(

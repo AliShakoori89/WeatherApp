@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,17 +28,12 @@ class _HourlyWeekWeathersWithCityLocationState extends State<HourlyWeekWeathersW
   @override
   Widget build(BuildContext context) {
 
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
-
     final weatherBloc = BlocProvider.of<WeatherDetailsBloc>(context);
     weatherBloc.add(FetchWeathersDetailsWithCityLocation(lat, lon));
 
     return BlocBuilder<WeatherDetailsBloc, WeatherDetailsState>(builder: (context, state){
       if (state is WeatherDetailsLoadingState){
-        return Center(
-            // child: SpinKitCircle(color: Colors.white)
-        );
+        return Center();
       }else if (state is WeatherDetailsIsLoadedState) {
 
 
@@ -63,9 +57,7 @@ class _HourlyWeekWeathersWithCityLocationState extends State<HourlyWeekWeathersW
                     child: Text(
                       'HOURLY',
                       style: TextStyle(
-                          color: (int.parse(formattedTime) < 18)
-                              ? Colors.black54
-                              : Colors.white, fontSize: 13.0),
+                          color: Colors.white, fontSize: 13.0),
                     )),
               ),
               SizedBox(
