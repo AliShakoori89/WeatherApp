@@ -1,8 +1,12 @@
+import 'package:location/location.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:weather/database/database.dart';
 import 'package:weather/models/city_model.dart';
 import 'package:weather/models/hourly_weather_model.dart';
+import 'package:weather/models/locationModel.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/networking/api_base_helper.dart';
+import 'package:geolocator/geolocator.dart' as Geo;
 
 class WeatherRepository {
 
@@ -47,12 +51,24 @@ class WeatherRepository {
 
   Future<List> fetchAllDataCityWeatherRepo() async {
     var helper = DatabaseHelper();
-    // var cities = await helper.getAllCityWeather();
-    // cities.forEach((element) {
-    //   CityModel city = new CityModel();
-    //   city = element;
-    //   print(city.name);
-    // });
     return await helper.getAllCityWeather();
+  }
+
+  Future<Geo.Position> fetchCityLocationRepo() async{
+
+    final Location location = Location();
+    bool serviceStatusResult = await location.requestService();
+    
+    print('1');
+    Geo.Position position;
+    // List locat = [];
+     if (serviceStatusResult){
+       print('2');
+       var position = await Geo.Geolocator.getCurrentPosition(
+           desiredAccuracy: Geo.LocationAccuracy.medium,
+           forceAndroidLocationManager: true);
+       return position;
+
+    }
   }
 }

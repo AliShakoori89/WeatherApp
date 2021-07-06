@@ -480,29 +480,29 @@ class _SearchPageState extends State<SearchPage> {
               color: (int.parse(formattedTime) < 18)
                   ? Colors.black87
                   : Colors.white,
-              onPressed: () async {
+              onPressed: (){
 
                 FocusScope.of(context);
 
-                bool serviceStatusResult = await location.requestService();
-
-                 if (serviceStatusResult){
-                   await Geo.Geolocator.getCurrentPosition(
-                       desiredAccuracy: Geo.LocationAccuracy.best,
-                       forceAndroidLocationManager: true)
-                       .then((Geo.Position position) {
-                     setState(() {
-                       _currentPosition = position;
-                     });
-                   }).catchError((e) {
-                     print(e);
-                   });
+                // bool serviceStatusResult = await location.requestService();
+                //
+                //  if (serviceStatusResult){
+                //    await Geo.Geolocator.getCurrentPosition(
+                //        desiredAccuracy: Geo.LocationAccuracy.best,
+                //        forceAndroidLocationManager: true)
+                //        .then((Geo.Position position) {
+                //      setState(() {
+                //        _currentPosition = position;
+                //      });
+                //    }).catchError((e) {
+                //      print(e);
+                //    });
                    Navigator.of(context).push(MaterialPageRoute(
                        builder: (context) => CityWeatherDetailsWithCityLocation(
-                           _currentPosition.latitude,
-                           _currentPosition.longitude)));
-                 }
-              },
+                           // _currentPosition.latitude,
+                           // _currentPosition.longitude
+                           )));
+               }
             ),
           )
         ],

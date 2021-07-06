@@ -1,14 +1,14 @@
-class Location {
+class LocationModel {
   final double longitude;
   final double latitude;
 
-  Location({
+  LocationModel({
     this.longitude,
     this.latitude,
   });
 
-  static Location fromJson(dynamic json) {
-    return Location(
+  static LocationModel fromJson(dynamic json) {
+    return LocationModel(
         longitude: json['coord']['lon'].toDouble(),
         latitude: json['coord']['lat'].toDouble());
   }

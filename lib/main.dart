@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:weather/bloc/cities_summery_container_bloc.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
+import 'package:weather/bloc/search_location_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:weather/view/search_screen.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       home: MultiBlocProvider(
         providers: [
+          BlocProvider(
+              create: (BuildContext context) =>
+                  SearchLocationsBloc(WeatherRepository())),
           BlocProvider(
               create: (BuildContext context) =>
                   WeatherBloc(WeatherRepository())),

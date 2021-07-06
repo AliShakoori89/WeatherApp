@@ -40,6 +40,10 @@ class _HourlyWeekWeathersWithCityLocationState extends State<HourlyWeekWeathersW
         var hourly = state.getWeather.list;
 
         return Container(
+            margin: EdgeInsets.only(
+                left: 15,
+                right: 15
+            ),
           decoration: BoxDecoration(
               color: Colors.grey[900].withOpacity(0.5),
               borderRadius: BorderRadius.circular(25)),
