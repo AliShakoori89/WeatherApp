@@ -142,8 +142,6 @@ class _SearchPageState extends State<SearchPage> {
         Opacity(
           opacity: 0.5,
           child: ShapeOfView(
-            // elevation: 4,
-            // height: 300,
             shape: CircleShape(
               borderColor: Colors.white, //optional
             ),
@@ -481,26 +479,9 @@ class _SearchPageState extends State<SearchPage> {
                   ? Colors.black87
                   : Colors.white,
               onPressed: (){
-
                 FocusScope.of(context);
-
-                // bool serviceStatusResult = await location.requestService();
-                //
-                //  if (serviceStatusResult){
-                //    await Geo.Geolocator.getCurrentPosition(
-                //        desiredAccuracy: Geo.LocationAccuracy.best,
-                //        forceAndroidLocationManager: true)
-                //        .then((Geo.Position position) {
-                //      setState(() {
-                //        _currentPosition = position;
-                //      });
-                //    }).catchError((e) {
-                //      print(e);
-                //    });
                    Navigator.of(context).push(MaterialPageRoute(
                        builder: (context) => CityWeatherDetailsWithCityLocation(
-                           // _currentPosition.latitude,
-                           // _currentPosition.longitude
                            )));
                }
             ),

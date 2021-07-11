@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -41,13 +42,22 @@ class _CityWeatherDetailsWithCityLocationState extends State<CityWeatherDetailsW
       },
       child: BlocBuilder<SearchLocationsBloc, SearchLocationStat>(builder: (context, state){
       if (state is SearchLocationLoadingState){
-        print('is loading state');
-        return SpinKitCircle(color: Colors.white);
+        return Padding(
+          padding: const EdgeInsets.only(
+              left: 140,
+          right: 140),
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage('assets/images/Weather.gif')
+              )
+            ),
+          ),
+        );
+          // SpinKitCircle(color: Colors.white);
       }else
       if (state is SearchLocationIsLoadedState){
-
-        print('is loaded state');
-
         var lat = state.getLocations.latitude;
         var lon = state.getLocations.longitude;
 
