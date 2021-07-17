@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/view/search_screen.dart';
 import 'package:weather/view/temperature_chart_with_cityname.dart';
 import 'package:weather/view/daily_weak_weathers_with_city_name.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_name.dart';
@@ -30,7 +31,9 @@ class _CityWeatherDetailsWithNameState extends State<CityWeatherDetailsWithName>
     return WillPopScope(
       onWillPop: () async{
         FocusScope.of(context).unfocus();
-        return Navigator.canPop(context);
+        return Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                SearchScreen()));
       },
       child: Scaffold(
         backgroundColor: Colors.black,

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:weather/bloc/search_location_bloc.dart';
 import 'package:weather/view/daily_week_weathers_with_city_location.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_location.dart';
+import 'package:weather/view/search_screen.dart';
 import 'package:weather/view/temperature_chart_with_citylocation.dart';
 import 'package:weather/view/today_weather_with_citylocation.dart';
 
@@ -30,14 +31,12 @@ class _CityWeatherDetailsWithCityLocationState extends State<CityWeatherDetailsW
     final searchBloc = BlocProvider.of<SearchLocationsBloc>(context);
     searchBloc.add(FetchWeathersLocations());
 
-    Future _onBackPressed(BuildContext context) {
-      FocusScope.of(context).unfocus();
-    }
-
     return WillPopScope(
       onWillPop: () async{
         FocusScope.of(context).unfocus();
-        return Navigator.canPop(context);
+        return Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                SearchScreen()));
       },
       child: BlocBuilder<SearchLocationsBloc, SearchLocationStat>(builder: (context, state){
       if (state is SearchLocationLoadingState){
