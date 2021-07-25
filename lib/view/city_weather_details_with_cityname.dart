@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:weather/view/search_screen.dart';
 import 'package:weather/view/temperature_chart_with_cityname.dart';
 import 'package:weather/view/daily_weak_weathers_with_city_name.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_name.dart';
@@ -31,9 +30,7 @@ class _CityWeatherDetailsWithNameState extends State<CityWeatherDetailsWithName>
     return WillPopScope(
       onWillPop: () async{
         FocusScope.of(context).unfocus();
-        return Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                SearchScreen()));
+        return Navigator.canPop(context);
       },
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -43,7 +40,7 @@ class _CityWeatherDetailsWithNameState extends State<CityWeatherDetailsWithName>
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage( ( int.parse(formattedTime) < 18)
+                    image: AssetImage( ( int.parse(formattedTime) < 18 )
                         ? 'assets/images/sunny.png'
                         : 'assets/images/night.png'),
                     fit: BoxFit.fitWidth,

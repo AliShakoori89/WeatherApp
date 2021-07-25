@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,102 +38,72 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  Future<void> onPop1(BuildContext context) async {
-
-    await showDialog(
-        context: context, builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      title: Text('Do you want to exit App ?'),
-      actions: [
-        TextButton(
-          child: Text('No', style: TextStyle(color: Colors.black)),
-          onPressed: () {
-            Navigator.of(context)..pop()..pop();
-          },
-        ),
-        TextButton(
-          child: Text('Yes', style: TextStyle(color: Colors.black)),
-          onPressed: () async {
-            exit(0);
-          },
-        ),
-      ],
-    )
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async{
-        await onPop1(context);
-        return true;
-      },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            extendBodyBehindAppBar: true,
-            resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-                backgroundColor: const Color(0xFFFEFFFA).withOpacity(0),
-                elevation: 0.0,
-                actions: [
-                  //list if widget in appbar actions
-                  IconButton(icon: Icon(Icons.help,color: Colors.white),
-                  onPressed: (){
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            insetPadding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).size.height / 4,
-                              left: MediaQuery.of(context).size.height / 30,
-                              right: MediaQuery.of(context).size.height / 30,
-                            ),
-                            actions: [
-                              Center(
-                                child: ElevatedButton(
-                                    style:
-                                    ElevatedButton.styleFrom(
-                                      primary: Colors.white30,
-                                      onPrimary: Colors.black,
-                                      shape: const BeveledRectangleBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(25))),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('ok')),
-                              )
-                            ],
-                            content: Text(
-                                'Just longpress on the city card to '
-                                    'delete the weather summary'),
-                            backgroundColor:
-                            Colors.grey,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(25)),
-                          );
-                        });
-                  },
-                  ),
-                ],
-            ),
-            body: Container(
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  image: DecorationImage(
-                    image: AssetImage((int.parse(formattedTime) < 18)
-                        ? 'assets/images/sunny.png'
-                        : 'assets/images/night.png'),
-                    fit: BoxFit.fill,
-                    colorFilter: new ColorFilter.mode(
-                        Colors.black.withOpacity(0.7), BlendMode.dstATop),
-                  )),
-              child: SearchPage(hintText, focusNode),
-            )
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+          extendBodyBehindAppBar: true,
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+              backgroundColor: const Color(0xFFFEFFFA).withOpacity(0),
+              elevation: 0.0,
+              actions: [
+                //list if widget in appbar actions
+                IconButton(icon: Icon(Icons.help,color: Colors.white),
+                onPressed: (){
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          insetPadding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height / 4,
+                            left: MediaQuery.of(context).size.height / 30,
+                            right: MediaQuery.of(context).size.height / 30,
+                          ),
+                          actions: [
+                            Center(
+                              child: ElevatedButton(
+                                  style:
+                                  ElevatedButton.styleFrom(
+                                    primary: Colors.white30,
+                                    onPrimary: Colors.black,
+                                    shape: const BeveledRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('ok')),
+                            )
+                          ],
+                          content: Text(
+                              'Just longpress on the city card to '
+                                  'delete the weather summary'),
+                          backgroundColor:
+                          Colors.grey,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(25)),
+                        );
+                      });
+                },
+                ),
+              ],
+          ),
+          body: Container(
+            decoration: BoxDecoration(
+                color: Colors.black,
+                image: DecorationImage(
+                  image: AssetImage((int.parse(formattedTime) < 18)
+                      ? 'assets/images/sunny.png'
+                      : 'assets/images/night.png'),
+                  fit: BoxFit.fill,
+                  colorFilter: new ColorFilter.mode(
+                      Colors.black.withOpacity(0.7), BlendMode.dstATop),
+                )),
+            child: SearchPage(hintText, focusNode),
+          )
       ),
     );
   }

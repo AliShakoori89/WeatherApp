@@ -14,8 +14,7 @@ class CityModel {
       { this.id, this.name, this.icon, this.temp,
       this.tempMin, this.tempMax, this.feelsLike, this.time});
 
-  static const String TABLENAME = "my_table";
-
+  // ignore: non_constant_identifier_names
   CityModel.Map(dynamic CityModel) {
     this.id = CityModel['id'];
     this.name = CityModel['name'];

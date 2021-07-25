@@ -34,9 +34,7 @@ class _CityWeatherDetailsWithCityLocationState extends State<CityWeatherDetailsW
     return WillPopScope(
       onWillPop: () async{
         FocusScope.of(context).unfocus();
-        return Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                SearchScreen()));
+        return Navigator.canPop(context);
       },
       child: BlocBuilder<SearchLocationsBloc, SearchLocationStat>(builder: (context, state){
       if (state is SearchLocationLoadingState){

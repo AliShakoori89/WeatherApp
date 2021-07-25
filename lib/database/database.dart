@@ -19,8 +19,7 @@ class DatabaseHelper {
   DatabaseHelper();
 
   static const databaseName = 'MyDatabase.db';
-  static final DatabaseHelper instance = DatabaseHelper (
-  );
+  static final DatabaseHelper instance = DatabaseHelper ();
   static Database _database;
 
 
