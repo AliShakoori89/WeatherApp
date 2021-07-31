@@ -1,9 +1,7 @@
 import 'package:location/location.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:weather/database/database.dart';
 import 'package:weather/models/city_model.dart';
 import 'package:weather/models/hourly_weather_model.dart';
-import 'package:weather/models/locationModel.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/networking/api_base_helper.dart';
 import 'package:geolocator/geolocator.dart' as Geo;
@@ -58,15 +56,13 @@ class WeatherRepository {
 
     final Location location = Location();
     bool serviceStatusResult = await location.requestService();
-    
+
     print('1');
-    Geo.Position position;
+    // Geo.Position position;
     // List locat = [];
      if (serviceStatusResult){
        print('2');
-       var position = await Geo.Geolocator.getCurrentPosition(
-           desiredAccuracy: Geo.LocationAccuracy.medium,
-           forceAndroidLocationManager: true);
+       var position = await Geo.Geolocator.getCurrentPosition();
        return position;
 
     }

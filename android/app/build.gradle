@@ -35,7 +35,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.minimalweather"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 4
         versionName '1.3'
