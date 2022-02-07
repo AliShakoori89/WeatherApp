@@ -40,6 +40,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(int.parse(formattedTime));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -243,10 +245,8 @@ class _SearchPageState extends State<SearchPage> {
                                 Padding(
                                   padding: EdgeInsets.only(
                                       top: MediaQuery.of(context).size.height / 60),
-                                  child: SvgPicture.asset(
-                                    "assets/svgs/" + "${state.getCitiesWeathers[index].icon}" + ".svg",
-                                    width: 65.0,
-                                  ),
+                                  child: Image.asset('assets/gifs/' + '${state.getCitiesWeathers[index].icon}'+'.gif',
+                                  height: 65, width: 65,)
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(

@@ -94,8 +94,7 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
 
     }else
     if (state is WeatherDetailsIsNotLoadedState){
-      return Text(
-        'There was an error fetching weather data',
+      return Text('',
         style: TextStyle(fontSize: 25, color: Colors.white),
       );
     }else

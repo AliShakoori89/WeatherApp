@@ -7,6 +7,7 @@ import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
 import 'package:weather/bloc/search_location_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
 import 'package:weather/repositories/weather_repository.dart';
+import 'package:weather/view/home_page.dart';
 import 'package:weather/view/search_screen.dart';
 
 
@@ -41,10 +42,10 @@ class MyApp extends StatelessWidget {
         child: ScreenTypeLayout(
           breakpoints: ScreenBreakpoints(desktop: 900, tablet: 650, watch: 250),
           mobile: OrientationLayoutBuilder(
-            portrait: (context) => SearchScreen(),
-            landscape: (context) => SearchScreen(),
+            portrait: (context) => HomePage(),
+            landscape: (context) => HomePage(),
           ),
-          tablet: SearchScreen(),
+          tablet: HomePage(),
         )
       )
     );

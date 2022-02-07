@@ -74,6 +74,8 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
                     // physics: BouncingScrollPhysics(),
                     itemCount: hourly.length - 20,
                     itemBuilder: (context, index) {
+
+                      print(hourly[index].weather[0].icon);
                       return SizedBox(
                           width: MediaQuery.of(context).size.height / 10,
                           child: Column(
@@ -83,8 +85,8 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
                                 width: MediaQuery.of(context).size.height / 12,
                                 height: MediaQuery.of(context).size.height / 12,
                                 child: Center(
-                                  child: SvgPicture.asset(
-                                    "assets/svgs/"+hourly[index].weather[0].icon+".svg", width: 40.0, cacheColorFilter: false,),
+                                  child: Image.asset('assets/gifs/' +hourly[index].weather[0].icon+'.gif',
+                                    width: 35, height: 35,)
                                 ),
                               ),
                               Text(

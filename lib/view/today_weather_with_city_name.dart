@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/bloc/cities_summery_container_bloc.dart';
 import 'package:weather/bloc/weather_bloc.dart';
@@ -60,7 +59,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
             right: 15.0,
           ),
           decoration: BoxDecoration(
-              color: Colors.grey[900].withOpacity(0.5),
+              // color: Colors.grey[900].withOpacity(0.5),
               borderRadius: BorderRadius.circular(25)
           ),
           child: Wrap(
@@ -74,20 +73,30 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
               ),
               todayTimeWidget(context, time),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 30,
+                height: MediaQuery.of(context).size.height / 5,
               ),
-              weatherIconAndWeatherDescriptionWidget(weather, context),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 50,
-              ),
-              Center(
-                child: Text(
-                  '${ConvertTemperature().fahrenheitToCelsius(temp)}' + '°C',
-                  style: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.w400),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  bottom: 30
                 ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 15,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${ConvertTemperature().fahrenheitToCelsius(temp)}' ,
+                          style: TextStyle(fontSize: 100, color: Colors.white, fontWeight: FontWeight.w300),
+                        ),
+                        Text('°C', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400))
+                      ],
+                    ),
+                    weatherIconAndWeatherDescriptionWidget(weather, context),
+                  ],
+                ),
               ),
               todayWeatherDetailsWidget(context, pressure, humidity, maxTemp, minTemp, wind, sunrise)
             ],
@@ -266,12 +275,12 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
     );
   }
 
-  Row weatherIconAndWeatherDescriptionWidget(List<Weather> weather, BuildContext context) {
-    return Row(
+  Column weatherIconAndWeatherDescriptionWidget(List<Weather> weather, BuildContext context) {
+    return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SvgPicture.asset(
-                "assets/svgs/"+"${weather[0].icon}"+".svg", width: 70.0,),
+              Image.asset('assets/gifs/' +'${weather[0].icon}'+'.gif',
+                  height: 120, width: 120),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 80,
               ),
@@ -308,29 +317,26 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                 padding: EdgeInsets.only(
                   right:  MediaQuery.of(context).size.height/50,),
                 child: Center(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.add, color: Colors.white, size: 20),
-                        onPressed: (){
-                          CityModel cityModel = CityModel();
-                          cityModel.id = id;
-                          cityModel.name = name;
-                          cityModel.feelsLike = feelsLike;
-                          cityModel.temp = temp;
-                          cityModel.tempMax = maxTemp;
-                          cityModel.tempMin = minTemp;
-                          cityModel.time = time;
-                          cityModel.icon = weather[0].icon;
-                          final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
-                          citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SearchScreen()));
-                        },
-                      )
-                    ],
-                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.add, color: Colors.white, size: 20),
+                    onPressed: (){
+                      CityModel cityModel = CityModel();
+                      cityModel.id = id;
+                      cityModel.name = name;
+                      cityModel.feelsLike = feelsLike;
+                      cityModel.temp = temp;
+                      cityModel.tempMax = maxTemp;
+                      cityModel.tempMin = minTemp;
+                      cityModel.time = time;
+                      cityModel.icon = weather[0].icon;
+                      final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
+                      citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SearchScreen()));
+                    },
+                  )
+                  ,
                 ),
               );
   }
@@ -342,8 +348,8 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                   children: [
                     Icon(Icons.location_on, color: Colors.white, size: 20,),
                     SizedBox(width: MediaQuery.of(context).size.height/150,),
-                    Text(name, style: TextStyle(fontSize: 20, color: Colors.white,
-                        fontWeight: FontWeight.w300),),
+                    Text(name, style: TextStyle(fontSize: 30, color: Colors.white,
+                        fontWeight: FontWeight.w400),),
                   ],
                 ),
     );

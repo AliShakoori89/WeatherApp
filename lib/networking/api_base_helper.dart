@@ -7,7 +7,7 @@ import 'package:weather/networking/http_exception.dart';
 
 class ApiBaseHelper {
   final String _baseUrl = 'https://api.openweathermap.org';
-  final String apiKey = '055ef26309ce2b615edf4e5870da82d6';
+  final String apiKey = 'dec3d08a8e81fa597d45447e05571e04';
 
   Future<WeatherModel> getCityNameFromLocation(double latitude, double longitude) async {
     final url = '$_baseUrl/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey';

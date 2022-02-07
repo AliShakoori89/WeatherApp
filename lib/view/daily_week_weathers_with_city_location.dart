@@ -79,8 +79,8 @@ class _DailyWeekWeathersWithCityLocationState extends State<DailyWeekWeathersWit
                               width: MediaQuery.of(context).size.height / 12,
                               height: MediaQuery.of(context).size.height / 12,
                               child: Center(
-                                child: SvgPicture.asset(
-                                  "assets/svgs/"+daily[index].weather[0].icon+".svg", width: 40.0, cacheColorFilter: true,),
+                                child: Image.asset('assets/gifs/' +daily[index].weather[0].icon+'.gif',
+                                    height: 35, width: 35)
                               ),
                             ),
                             Text(

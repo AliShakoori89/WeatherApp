@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/bloc/cities_summery_container_bloc.dart';
 import 'package:weather/view/temperature_chart_with_cityname.dart';
 import 'package:weather/view/daily_weak_weathers_with_city_name.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_name.dart';

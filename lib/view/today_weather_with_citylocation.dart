@@ -250,8 +250,8 @@ class _TodayWeatherWithCityLocationState extends State<TodayWeatherWithCityLocat
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SvgPicture.asset(
-          "assets/svgs/"+"${weather[0].icon}"+".svg", width: 70.0,),
+        Image.asset('assets/gifs/' + '${weather[0].icon}'+'.gif',
+            height: 65, width: 65),
         SizedBox(
           width: MediaQuery.of(context).size.width / 80,
         ),

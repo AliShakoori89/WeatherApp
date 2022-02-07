@@ -82,8 +82,8 @@ class _HourlyWeekWeathersWithCityLocationState extends State<HourlyWeekWeathersW
                               width: MediaQuery.of(context).size.height / 12,
                               height: MediaQuery.of(context).size.height / 12,
                               child: Center(
-                                child: SvgPicture.asset(
-                                  "assets/svgs/"+hourly[index].weather[0].icon+".svg", width: 40.0, cacheColorFilter: false,),
+                                child: Image.asset('assets/gifs/' +hourly[index].weather[0].icon+'.gif',
+                                    height: 35, width: 35)
                               ),
                             ),
                             Text(
