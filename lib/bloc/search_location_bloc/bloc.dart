@@ -1,54 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:weather/models/locationModel.dart';
+import 'package:weather/bloc/search_location_bloc/event.dart';
+import 'package:weather/bloc/search_location_bloc/state.dart';
 import 'package:weather/networking/http_exception.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:geolocator/geolocator.dart' as Geo;
-
-class SearchLocationEvent extends Equatable {
-  @override
-
-  List<Object> get props => [];
-}
-
-class SearchLocationStat extends Equatable {
-  @override
-
-  List<Object> get props => throw[];
-}
-
-class SearchLocationIsLoadedState extends SearchLocationStat{
-
-  final Geo.Position location;
-
-  SearchLocationIsLoadedState(this.location);
-
-  Geo.Position get getLocations => location;
-
-  @override
-  List<Object> get props => [location];
-}
-
-class FetchWeathersLocations extends SearchLocationEvent{
-
-  FetchWeathersLocations();
-
-  @override
-  List<Object> get props => [];
-}
-
-class SearchLocationError extends SearchLocationStat {
-  final int errorCode;
-
-  SearchLocationError(this.errorCode);
-}
-
-class SearchLocationLoadingState extends SearchLocationStat {}
-
-class SearchLocationIsNotLoadedState extends SearchLocationStat {}
-
-class SearchLocationEmpty extends SearchLocationStat {}
 
 class SearchLocationsBloc extends Bloc<SearchLocationEvent, SearchLocationStat> {
 

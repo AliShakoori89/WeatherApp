@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
+import 'package:weather/bloc/daily_hourly_weather_bloc/bloc.dart';
+import 'package:weather/bloc/daily_hourly_weather_bloc/event.dart';
+import 'package:weather/bloc/daily_hourly_weather_bloc/state.dart';
 import 'package:weather/convert/convert_temperature.dart';
 
 class HourlyWeekWeathersWithCityName extends StatefulWidget {

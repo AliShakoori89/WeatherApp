@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:weather/bloc/cities_summery_container_bloc.dart';
-import 'package:weather/bloc/daily_hourly_weather_bloc.dart';
-import 'package:weather/bloc/search_location_bloc.dart';
-import 'package:weather/bloc/weather_bloc.dart';
+import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
+import 'package:weather/bloc/fetch_all_cities/bloc.dart';
+import 'package:weather/bloc/search_location_bloc/bloc.dart';
+import 'package:weather/bloc/weather_bloc/bloc.dart';
 import 'package:weather/repositories/weather_repository.dart';
 import 'package:weather/view/home_page.dart';
-import 'package:weather/view/search_screen.dart';
+import 'bloc/daily_hourly_weather_bloc/bloc.dart';
 
 
 void main() => runApp(MyApp());
@@ -21,10 +21,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp]);
 
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: MultiBlocProvider(
+    return MultiBlocProvider(
         providers: [
           BlocProvider(
               create: (BuildContext context) =>
@@ -38,16 +35,13 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (BuildContext context) =>
                   CitiesWeathersSummeryBloc(WeatherRepository())),
+          BlocProvider(
+              create: (BuildContext context) =>
+                  FetchCitiesDataBloc(WeatherRepository())),
         ],
-        child: ScreenTypeLayout(
-          breakpoints: ScreenBreakpoints(desktop: 900, tablet: 650, watch: 250),
-          mobile: OrientationLayoutBuilder(
-            portrait: (context) => HomePage(),
-            landscape: (context) => HomePage(),
-          ),
-          tablet: HomePage(),
-        )
-      )
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: HomePage())
     );
   }
 }

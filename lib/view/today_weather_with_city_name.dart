@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:weather/bloc/cities_summery_container_bloc.dart';
-import 'package:weather/bloc/weather_bloc.dart';
+import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
+import 'package:weather/bloc/all_cities_summery_container_bloc/event.dart';
+import 'package:weather/bloc/weather_bloc/bloc.dart';
+import 'package:weather/bloc/weather_bloc/event.dart';
+import 'package:weather/bloc/weather_bloc/state.dart';
 import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/models/city_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/p_icons.dart';
-import 'package:weather/view/search_screen.dart';
+import 'package:weather/view/cities_menu.dart';
+import 'package:weather/view/home_page.dart';
 import 'package:weather/wind_icons.dart';
 
 class TodayWeatherWithCityName extends StatefulWidget {
 
   final String cityName;
-  TodayWeatherWithCityName(this.cityName);
+  final IconData trueIcon;
+
+  TodayWeatherWithCityName(this.cityName, this.trueIcon);
 
   @override
-  _TodayWeatherWithCityNameState createState() => _TodayWeatherWithCityNameState(cityName);
+  _TodayWeatherWithCityNameState createState() => _TodayWeatherWithCityNameState(cityName, trueIcon);
 }
 
 class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
 
   final String cityName;
+  final IconData trueIcon;
 
-  _TodayWeatherWithCityNameState(this.cityName);
+  _TodayWeatherWithCityNameState(this.cityName, this.trueIcon);
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +59,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
         var feelsLike = state.getWeather.main.feelsLike;
         var id = state.getWeather.id;
         var time = state.getWeather.dt;
+        var icon = state.getWeather.weather[0].icon;
 
         return Container(
           margin: const EdgeInsets.only(
@@ -68,7 +76,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   cityNameIcon(context, name),
-                  addIcon(context, id, name, feelsLike, temp, maxTemp, minTemp, time, weather)
+                  addIcon(context, trueIcon, id, name, feelsLike, temp, maxTemp, minTemp, time, icon)
                 ],
               ),
               todayTimeWidget(context, time),
@@ -312,31 +320,39 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
           );
   }
 
-  Padding addIcon(BuildContext context, int id, String name, double feelsLike, double temp, double maxTemp, double minTemp, int time, List<Weather> weather) {
+  Padding addIcon(BuildContext context, IconData trueIcon, int id, String name, double feelsLike, double temp ,
+      double maxTemp, double minTemp, int time, String icon) {
     return Padding(
                 padding: EdgeInsets.only(
                   right:  MediaQuery.of(context).size.height/50,),
                 child: Center(
                   child: IconButton(
-                    icon: Icon(Icons.add, color: Colors.white, size: 20),
+                    icon: Icon(trueIcon, color: Colors.white, size: 20),
                     onPressed: (){
-                      CityModel cityModel = CityModel();
-                      cityModel.id = id;
-                      cityModel.name = name;
-                      cityModel.feelsLike = feelsLike;
-                      cityModel.temp = temp;
-                      cityModel.tempMax = maxTemp;
-                      cityModel.tempMin = minTemp;
-                      cityModel.time = time;
-                      cityModel.icon = weather[0].icon;
-                      final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
-                      citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SearchScreen()));
+                      if(trueIcon == Icons.add) {
+                        CityModel cityModel = CityModel();
+                        cityModel.id = id;
+                        cityModel.name = name;
+                        cityModel.feelsLike = feelsLike;
+                        cityModel.temp = temp;
+                        cityModel.tempMax = maxTemp;
+                        cityModel.tempMin = minTemp;
+                        cityModel.time = time;
+                        cityModel.icon = icon;
+                        final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
+                        citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                              (Route<dynamic> route) => false,);
+
+                      }
+                      else {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => CitiesMenu()));
+                      }
                     },
-                  )
-                  ,
+                  ),
                 ),
               );
   }
