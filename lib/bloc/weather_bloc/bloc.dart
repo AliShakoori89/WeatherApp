@@ -8,7 +8,7 @@ import 'package:weather/repositories/weather_repository.dart';
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherRepository weatherRepository;
 
-  WeatherBloc(this.weatherRepository) : super(WeatherIsNotLoadedState());
+  WeatherBloc(this.weatherRepository) : super(WeatherInitialState());
 
   @override
   WeatherState get initialState {

@@ -5,30 +5,18 @@ import 'package:intl/intl.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc/bloc.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc/event.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc/state.dart';
+import 'package:weather/component/day_time.dart';
 import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/view/temperature_Line_Chart.dart';
 
-class TemperatureChartWithCityName extends StatefulWidget {
+class TemperatureChartWithCityName extends StatelessWidget {
 
   final String cityName;
 
   const TemperatureChartWithCityName(this.cityName);
 
   @override
-  _TemperatureChartWithCityNameState createState() => _TemperatureChartWithCityNameState(cityName);
-}
-
-class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityName> {
-
-  final String cityName;
-
-  _TemperatureChartWithCityNameState(this.cityName);
-
-  @override
   Widget build(BuildContext context) {
-
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
 
     final weatherBloc = BlocProvider.of<WeatherDetailsBloc>(context);
     weatherBloc.add(FetchWeathersDetailsWithCityName(cityName));
@@ -67,7 +55,7 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
                   right: 15.0,
               ),
               decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.grey[900].withOpacity(0.9),
                   borderRadius: BorderRadius.circular(25)),
               width: MediaQuery.of(context).size.width/1.05,
               height: MediaQuery.of(context).size.height / 3.2,
@@ -83,7 +71,7 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
                         child: Text(
                           'DAILY Chart',
                           style: TextStyle(
-                              color: Colors.black54, fontSize: 13.0),
+                              color: Colors.white, fontSize: 13.0),
                         )),
                   ),
                   SizedBox(
@@ -100,7 +88,7 @@ class _TemperatureChartWithCityNameState extends State<TemperatureChartWithCityN
         style: TextStyle(fontSize: 25, color: Colors.white),
       );
     }else
-      return Center(child: Text("We have trouble fetching weather for $cityName", style: TextStyle(fontSize: 16, color: (int.parse(formattedTime) < 18)
+      return Center(child: Text("We have trouble fetching weather for $cityName", style: TextStyle(fontSize: 16, color: (dayTime() < 18)
           ? Colors.black87
           : Colors.white)));
     });

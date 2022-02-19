@@ -6,20 +6,11 @@ import 'package:weather/bloc/daily_hourly_weather_bloc/event.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc/state.dart';
 import 'package:weather/convert/convert_temperature.dart';
 
-class DailyWeekWeathersWithCityName extends StatefulWidget {
+class DailyWeekWeathersWithCityName extends StatelessWidget {
 
   final String cityName;
 
   DailyWeekWeathersWithCityName(this.cityName);
-  @override
-  _DailyWeekWeathersWithCityNameState createState() => _DailyWeekWeathersWithCityNameState(cityName);
-}
-
-class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCityName> {
-
-  final String cityName;
-
-  _DailyWeekWeathersWithCityNameState(this.cityName);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +32,7 @@ class _DailyWeekWeathersWithCityNameState extends State<DailyWeekWeathersWithCit
                 right: 15.0,
             ),
           decoration: BoxDecoration(
-              color: Colors.grey[900].withOpacity(0.5),
+              color: Colors.grey[900].withOpacity(0.9),
               borderRadius: BorderRadius.circular(25)),
           width: MediaQuery.of(context).size.width/1.05,
           height: MediaQuery.of(context).size.height / 4.2,

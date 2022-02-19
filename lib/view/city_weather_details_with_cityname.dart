@@ -1,35 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:weather/view/cities_menu.dart';
-import 'package:weather/view/temperature_chart_with_cityname.dart';
+import 'package:weather/component/day_time.dart';
 import 'package:weather/view/daily_weak_weathers_with_city_name.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_name.dart';
+import 'package:weather/view/temperature_chart_with_cityname.dart';
 import 'package:weather/view/today_weather_with_city_name.dart';
 
 
-class CityWeatherDetailsWithName extends StatefulWidget {
+class CityWeatherDetailsWithName extends StatelessWidget {
 
   final String cityName;
-  final IconData trueIcon;
+  final IconData iconType;
 
-  CityWeatherDetailsWithName(this.cityName, this.trueIcon);
-
-  @override
-  _CityWeatherDetailsWithNameState createState() => _CityWeatherDetailsWithNameState(cityName, trueIcon);
-}
-
-class _CityWeatherDetailsWithNameState extends State<CityWeatherDetailsWithName> {
-
-  final String cityName;
-  final IconData trueIcon;
-
-  _CityWeatherDetailsWithNameState(this.cityName, this.trueIcon);
+  CityWeatherDetailsWithName(this.cityName, this.iconType);
 
   @override
   Widget build(BuildContext context) {
 
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%:::: $cityName');
 
     return Scaffold(
       body: SafeArea(
@@ -37,20 +24,22 @@ class _CityWeatherDetailsWithNameState extends State<CityWeatherDetailsWithName>
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
+            // color: Colors.white,
               image: DecorationImage(
-                image: AssetImage( ( int.parse(formattedTime) < 18 )
+                image: AssetImage((dayTime() < 16)
                     ? 'assets/images/sunny.png'
+                    : (18 > dayTime())
+                    ? 'assets/images/afternoon.png'
                     : 'assets/images/night.png'),
-                fit: BoxFit.fitWidth,
-              )
-          ),
+                fit: BoxFit.fill,
+              )),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(
                   height: 20,
                 ),
-                TodayWeatherWithCityName(cityName, trueIcon),
+                TodayWeatherWithCityName(cityName, iconType),
                 SizedBox(
                   height: 20,
                 ),

@@ -8,28 +8,18 @@ import 'package:weather/bloc/daily_hourly_weather_bloc/event.dart';
 import 'package:weather/bloc/daily_hourly_weather_bloc/state.dart';
 import 'package:weather/convert/convert_temperature.dart';
 
-class HourlyWeekWeathersWithCityName extends StatefulWidget {
+class HourlyWeekWeathersWithCityName extends StatelessWidget {
 
   final String cityName;
 
   HourlyWeekWeathersWithCityName(this.cityName);
 
-  @override
-  _HourlyWeekWeathersWithCityNameState createState() => _HourlyWeekWeathersWithCityNameState(cityName);
-}
-
-class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithCityName> {
-
-  final String cityName;
   var fm = new DateFormat('MM-dd – kk:mm');
-
-  _HourlyWeekWeathersWithCityNameState(this.cityName);
 
   @override
   Widget build(BuildContext context) {
 
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
+    // print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv'+cityName);
 
     final weatherBloc = BlocProvider.of<WeatherDetailsBloc>(context);
     weatherBloc.add(FetchWeathersDetailsWithCityName(cityName));
@@ -47,7 +37,7 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
             right: 15
           ),
           decoration: BoxDecoration(
-              color: Colors.grey[900].withOpacity(0.5),
+              color: Colors.grey[900].withOpacity(0.9),
               borderRadius: BorderRadius.circular(25)),
           width: MediaQuery.of(context).size.width/1.05,
           height: MediaQuery.of(context).size.height/4.5,
@@ -76,7 +66,6 @@ class _HourlyWeekWeathersWithCityNameState extends State<HourlyWeekWeathersWithC
                     itemCount: hourly.length - 20,
                     itemBuilder: (context, index) {
 
-                      print(hourly[index].weather[0].icon);
                       return SizedBox(
                           width: MediaQuery.of(context).size.height / 10,
                           child: Column(

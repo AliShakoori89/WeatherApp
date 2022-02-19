@@ -11,6 +11,7 @@ class WeatherRepository {
   ApiBaseHelper _apiHelper = ApiBaseHelper();
 
   Future<WeatherModel> getWeatherWithCityName(String cityName) async {
+    print('wwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::::::   '+ cityName);
     var weather = await _apiHelper.getWeatherDataWithCityName(cityName);
     return weather;
   }

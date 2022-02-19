@@ -26,9 +26,6 @@ class _DailyWeekWeathersWithCityLocationState extends State<DailyWeekWeathersWit
   @override
   Widget build(BuildContext context) {
 
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
-
     final weatherBloc = BlocProvider.of<WeatherDetailsBloc>(context);
     weatherBloc.add(FetchWeathersDetailsWithCityLocation(lat, lon));
 

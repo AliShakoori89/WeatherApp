@@ -28,6 +28,8 @@ class WeatherError extends WeatherState {
 
 }
 
+class WeatherInitialState extends WeatherState {}
+
 class WeatherLoadingState extends WeatherState {}
 
 class WeatherIsNotLoadedState extends WeatherState {}

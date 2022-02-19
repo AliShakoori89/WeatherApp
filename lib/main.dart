@@ -1,7 +1,8 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
 import 'package:weather/bloc/fetch_all_cities/bloc.dart';
 import 'package:weather/bloc/search_location_bloc/bloc.dart';
@@ -11,7 +12,11 @@ import 'package:weather/view/home_page.dart';
 import 'bloc/daily_hourly_weather_bloc/bloc.dart';
 
 
-void main() => runApp(MyApp());
+void main() => runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
 
@@ -41,6 +46,11 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
+            useInheritedMediaQuery: true,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
             home: HomePage())
     );
   }

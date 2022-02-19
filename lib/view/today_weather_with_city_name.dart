@@ -6,10 +6,12 @@ import 'package:weather/bloc/all_cities_summery_container_bloc/event.dart';
 import 'package:weather/bloc/weather_bloc/bloc.dart';
 import 'package:weather/bloc/weather_bloc/event.dart';
 import 'package:weather/bloc/weather_bloc/state.dart';
+import 'package:weather/component/day_time.dart';
 import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/models/city_model.dart';
 import 'package:weather/models/weather_model.dart';
 import 'package:weather/p_icons.dart';
+import 'package:weather/repositories/temprory_memory_repository.dart';
 import 'package:weather/view/cities_menu.dart';
 import 'package:weather/view/home_page.dart';
 import 'package:weather/wind_icons.dart';
@@ -17,35 +19,38 @@ import 'package:weather/wind_icons.dart';
 class TodayWeatherWithCityName extends StatefulWidget {
 
   final String cityName;
-  final IconData trueIcon;
+  final IconData iconType;
 
-  TodayWeatherWithCityName(this.cityName, this.trueIcon);
+  TodayWeatherWithCityName(this.cityName, this.iconType, {Key key})
+      : super(key: key);
 
   @override
-  _TodayWeatherWithCityNameState createState() => _TodayWeatherWithCityNameState(cityName, trueIcon);
+  State<TodayWeatherWithCityName> createState() => _TodayWeatherWithCityNameState(this.cityName, this.iconType);
 }
 
 class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
 
   final String cityName;
-  final IconData trueIcon;
+  final IconData iconType;
 
-  _TodayWeatherWithCityNameState(this.cityName, this.trueIcon);
+  _TodayWeatherWithCityNameState(this.cityName, this.iconType);
 
   @override
   Widget build(BuildContext context) {
 
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
+    print('*******************************************cityname:::;    ${this.cityName}');
 
     final weatherBloc = BlocProvider.of<WeatherBloc>(context);
     weatherBloc.add(FetchWeatherWithCityNameEvent(cityName));
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@cityname:::;    $cityName');
 
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state){
       if (state is WeatherLoadingState){
         return Center();
       }
       if (state is WeatherIsLoadedState){
+
+        print('((((((((((((((((((((((((()))))))))))))))))))))))))cityname:::;   $cityName');
 
         var temp = state.getWeather.main.temp;
         var name = state.getWeather.name;
@@ -76,12 +81,12 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   cityNameIcon(context, name),
-                  addIcon(context, trueIcon, id, name, feelsLike, temp, maxTemp, minTemp, time, icon)
+                  iconWidget(context, id, name, feelsLike, temp, maxTemp, minTemp, time, icon)
                 ],
               ),
               todayTimeWidget(context, time),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 5,
+                height: MediaQuery.of(context).size.height / 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -97,9 +102,19 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                       children: [
                         Text(
                           '${ConvertTemperature().fahrenheitToCelsius(temp)}' ,
-                          style: TextStyle(fontSize: 100, color: Colors.white, fontWeight: FontWeight.w300),
+                          style: TextStyle(fontSize: 100,
+                              color: (dayTime() < 18)
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontWeight: FontWeight.w300,
+                          fontFamily: 'Shizuru'),
                         ),
-                        Text('°C', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400))
+                        Text('°C', style: TextStyle(fontSize: 30,
+                            color: (dayTime() < 18)
+                                ? Colors.black
+                                : Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Shizuru'))
                       ],
                     ),
                     weatherIconAndWeatherDescriptionWidget(weather, context),
@@ -122,13 +137,13 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: MediaQuery.of(context).size.height / 4 ,),
-          Text("Please enter true city name", style: TextStyle(fontSize: 15, color: (int.parse(formattedTime) < 18)
+          Text("Please enter true city name", style: TextStyle(fontSize: 15, color: (dayTime() < 18)
               ? Colors.black87
               : Colors.white, fontWeight: FontWeight.w300)),
-          Text("or", style: TextStyle(fontSize: 20, color: (int.parse(formattedTime) < 18)
+          Text("or", style: TextStyle(fontSize: 20, color: (dayTime() < 18)
               ? Colors.black87
               : Colors.white, fontWeight: FontWeight.w300)),
-          Text("Please check your internet connection", style: TextStyle(fontSize: 15, color: (int.parse(formattedTime) < 18)
+          Text("Please check your internet connection", style: TextStyle(fontSize: 15, color: (dayTime() < 18)
               ? Colors.black87
               : Colors.white, fontWeight: FontWeight.w300))
         ],
@@ -139,7 +154,7 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
   Container todayWeatherDetailsWidget(BuildContext context, int pressure, int humidity, double maxTemp, double minTemp, double wind, int sunrise) {
     return Container(
             decoration: BoxDecoration(
-                color: Colors.grey[850].withOpacity(0.5),
+                color: Colors.grey[850].withOpacity(0.9),
                 borderRadius: BorderRadius.circular(25)
             ),
             width: MediaQuery.of(context).size.width/1.05,
@@ -296,11 +311,15 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                 children: [
                   Text(
                     '${weather[0].main}',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: dayTime() < 18
+                    ? Colors.black
+                    : Colors.white),
                   ),
                   Text(
                     '${weather[0].description}',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: dayTime() < 18
+                        ? Colors.black
+                        : Colors.white),
                   ),
                 ],
               ),
@@ -309,27 +328,31 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
   }
 
   Padding todayTimeWidget(BuildContext context, int time) {
+
     return Padding(
-            padding: EdgeInsets.only(left: MediaQuery.of(context).size.height / 30),
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.height / 25),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text('${DateFormat('E, ha').format(
                   DateTime.fromMillisecondsSinceEpoch(time * 1000))}',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 12)),
+                  style: TextStyle(color: (dayTime() < 18)
+                      ? Colors.black
+                      : Colors.white,
+                      fontWeight: FontWeight.w400, fontSize: 12)),
             ),
           );
   }
 
-  Padding addIcon(BuildContext context, IconData trueIcon, int id, String name, double feelsLike, double temp ,
+  Padding iconWidget(BuildContext context, int id, String name, double feelsLike, double temp ,
       double maxTemp, double minTemp, int time, String icon) {
     return Padding(
                 padding: EdgeInsets.only(
                   right:  MediaQuery.of(context).size.height/50,),
                 child: Center(
                   child: IconButton(
-                    icon: Icon(trueIcon, color: Colors.white, size: 20),
+                    icon: Icon(widget.iconType),
                     onPressed: (){
-                      if(trueIcon == Icons.add) {
+                      if(widget.iconType == Icons.add){
                         CityModel cityModel = CityModel();
                         cityModel.id = id;
                         cityModel.name = name;
@@ -339,13 +362,17 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
                         cityModel.tempMin = minTemp;
                         cityModel.time = time;
                         cityModel.icon = icon;
+
+
+                        _saveCity(name);
                         final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
                         citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
+
+                        // CityTemporaryMemory().savedCity(name);
                         Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
+                            MaterialPageRoute(builder: (context) => new HomePage()),
                               (Route<dynamic> route) => false,);
-
                       }
                       else {
                         Navigator.of(context).push(
@@ -357,17 +384,30 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
               );
   }
 
-  Padding cityNameIcon(BuildContext context, String name) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-                  children: [
-                    Icon(Icons.location_on, color: Colors.white, size: 20,),
-                    SizedBox(width: MediaQuery.of(context).size.height/150,),
-                    Text(name, style: TextStyle(fontSize: 30, color: Colors.white,
-                        fontWeight: FontWeight.w400),),
-                  ],
-                ),
+  _saveCity(String name) async {
+    setState(() {
+      CityTemporaryMemory().savedCity(name);
+    });
+  }
+
+  Row cityNameIcon(BuildContext context, String name) {
+
+    return Row(
+      children: [
+        Icon(Icons.location_on,
+          color: (dayTime() < 18)
+              ? Colors.black
+              : Colors.white,
+          size: 30,),
+        SizedBox(width: MediaQuery.of(context).size.height/150,),
+        Text(name, style: TextStyle(fontSize: 50,
+            color: (dayTime() < 18)
+                ? Colors.black
+                : Colors.white,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Dongle'
+        ),),
+      ],
     );
   }
 }

@@ -15,6 +15,8 @@ class FetchCitiesDataBloc extends Bloc<FetchCitiesDataEvent, FetchCitiesDataStat
     print('FetchCitiesDataState');
     if(event is SaveCityWeathersEvent){
       await weatherRepository.saveCityWeatherDetailesRepo(event.cityWeathers);
+      List<CityModel> citiesWeather = await weatherRepository.fetchAllDataCityWeatherRepo();
+      yield FetchCitiesDataIsLoadedState(citiesWeather);
     }
 
     if(event is DeleteCityForWeatherEvent){

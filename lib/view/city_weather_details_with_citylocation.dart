@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:weather/bloc/search_location_bloc/bloc.dart';
 import 'package:weather/bloc/search_location_bloc/event.dart';
 import 'package:weather/bloc/search_location_bloc/state.dart';
+import 'package:weather/component/day_time.dart';
 import 'package:weather/view/daily_week_weathers_with_city_location.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_location.dart';
 import 'package:weather/view/temperature_chart_with_citylocation.dart';
@@ -15,9 +16,6 @@ class CityWeatherDetailsWithCityLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
 
     final searchBloc = BlocProvider.of<SearchLocationsBloc>(context);
     searchBloc.add(FetchWeathersLocations());
@@ -56,7 +54,7 @@ class CityWeatherDetailsWithCityLocation extends StatelessWidget {
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage( ( int.parse(formattedTime) < 18)
+                        image: AssetImage( ( dayTime() < 18)
                             ? 'assets/images/sunny.png'
                             : 'assets/images/night.png'),
                         fit: BoxFit.fitWidth,

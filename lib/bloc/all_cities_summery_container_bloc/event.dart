@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:weather/bloc/all_cities_summery_container_bloc/state.dart';
 import 'package:weather/models/city_model.dart';
 
 class CitiesWeathersSummeryEvent extends Equatable {
@@ -18,11 +19,36 @@ class SaveCityWeathersEvent extends CitiesWeathersSummeryEvent{
 
 class FetchAllDataEvent extends CitiesWeathersSummeryEvent{}
 
-class UpdateCityWeatherEvent extends CitiesWeathersSummeryEvent{
-  final CityModel cityModel;
+class FetchWeatherWithCityNameForUpdateEvent extends CitiesWeathersSummeryEvent{
+  final String cityName;
 
-  UpdateCityWeatherEvent(this.cityModel);
+  FetchWeatherWithCityNameForUpdateEvent(this.cityName);
 
   @override
-  List<Object> get props => [cityModel];
+  List<Object> get props => [cityName];
+}
+
+class DeleteCityForWeatherEvent extends CitiesWeathersSummeryEvent {
+  final String cityName;
+
+  DeleteCityForWeatherEvent(this.cityName);
+
+  @override
+  List<Object> get props => [cityName];
+}
+
+class UpdateCityWeatherEvent extends CitiesWeathersSummeryEvent{
+  final CityModel cityWeathers;
+
+  UpdateCityWeatherEvent(this.cityWeathers);
+
+  @override
+  List<Object> get props => [cityWeathers];
+}
+
+class WeatherError extends CitiesWeathersSummeryState {
+  final int errorCode;
+
+  WeatherError(this.errorCode);
+
 }

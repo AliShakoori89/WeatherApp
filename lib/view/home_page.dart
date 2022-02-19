@@ -1,20 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
 import 'package:weather/bloc/all_cities_summery_container_bloc/event.dart';
 import 'package:weather/bloc/all_cities_summery_container_bloc/state.dart';
+import 'package:weather/component/day_time.dart';
+import 'package:weather/view/city_weather_details_with_cityname.dart';
 import 'package:weather/view/search_screen.dart';
-import 'city_weather_details_with_cityname.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+
+class HomePage extends StatefulWidget{
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  String _cityName;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCity();
+  }
+
+  _loadCity() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _cityName = (prefs.getString('City_Name') ?? '');
+      print('################################################    $_cityName');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    DateTime now = DateTime.now();
-    String formattedTime = DateFormat('kk').format(now);
 
     final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
     citiesWeathersSummeryBloc.add(FetchAllDataEvent());
@@ -24,49 +45,58 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.black,
         body: SafeArea(
             child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                height: double.infinity,
                 decoration: BoxDecoration(
+                  // color: Colors.white,
                     image: DecorationImage(
-                      image: AssetImage( ( int.parse(formattedTime) < 18 )
+                      image: AssetImage((dayTime() < 16)
                           ? 'assets/images/sunny.png'
+                          : (18 > dayTime())
+                          ? 'assets/images/afternoon.png'
                           : 'assets/images/night.png'),
-                      fit: BoxFit.fitWidth,
-                    )
-                ),
+                      fit: BoxFit.fill,
+                    )),
                 child: BlocBuilder<CitiesWeathersSummeryBloc, CitiesWeathersSummeryState>(builder: (context, state){
                   if (state is CitiesWeathersSummeryIsLoadingState){
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator(
+                      color: dayTime() < 18
+                          ? Colors.black
+                          : Colors.white,
+                    ));
                   }
                   if (state is CitiesWeathersSummeryIsLoadedState){
-                    return state.getCitiesWeathers.length != 0
-                        ? CityWeatherDetailsWithName(state.getCitiesWeathers[0].name , Icons.menu)
-                        : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('No city data to show, please add a city and retry',
-                            style: int.parse(formattedTime) < 18
-                                ? TextStyle(color: Colors.black)
-                                : TextStyle(color: Colors.white)),
-                        MaterialButton(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.lightBlue,
-                                borderRadius: BorderRadius.circular(10),
+                    if(state.getCitiesWeathers.length != 0){
+                      print('nameeeeeeeeeeeeeeeeeeeeeeeeeeeee:::::::::      $_cityName');
+                      return CityWeatherDetailsWithName( _cityName , Icons.menu);
+                    }else{
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('No city data to show, please add a city and retry',
+                              style: dayTime() < 18
+                                  ? TextStyle(color: Colors.black)
+                                  : TextStyle(color: Colors.white)),
+                          MaterialButton(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.lightBlue,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Add city'),
+                                ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Add city'),
-                              ),
-                            ),
-                            onPressed: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => SearchScreen()));
-                            })
-                      ],
-                    );
+                              onPressed: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => SearchScreen()));
+                              })
+                        ],
+                      );
+                    }
                   }
                   if (state is CitiesWeathersSummeryIsNotLoadedState){
                     return Text(
