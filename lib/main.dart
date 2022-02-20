@@ -3,8 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
+import 'package:weather/bloc/cities_weather_bloc/bloc.dart';
 import 'package:weather/bloc/fetch_all_cities/bloc.dart';
+import 'package:weather/bloc/search_city_bloc/bloc.dart';
 import 'package:weather/bloc/search_location_bloc/bloc.dart';
 import 'package:weather/bloc/weather_bloc/bloc.dart';
 import 'package:weather/repositories/weather_repository.dart';
@@ -39,10 +40,13 @@ class MyApp extends StatelessWidget {
                   WeatherDetailsBloc(WeatherRepository())),
           BlocProvider(
               create: (BuildContext context) =>
-                  CitiesWeathersSummeryBloc(WeatherRepository())),
+                  CitiesWeatherBloc(WeatherRepository())),
           BlocProvider(
               create: (BuildContext context) =>
                   FetchCitiesDataBloc(WeatherRepository())),
+          BlocProvider(
+              create: (BuildContext context) =>
+                  SearchCityBloc(WeatherRepository())),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

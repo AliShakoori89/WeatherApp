@@ -10,6 +10,7 @@ import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/repositories/temprory_memory_repository.dart';
 import 'package:weather/view/city_weather_details_with_cityname.dart';
 import 'package:weather/view/home_page.dart';
+import 'package:weather/view/search_city_result_page.dart';
 import 'package:weather/view/search_screen.dart';
 
 class CitiesMenu extends StatefulWidget{
@@ -19,6 +20,10 @@ class CitiesMenu extends StatefulWidget{
 }
 
 class _CitiesMenuState extends State<CitiesMenu> {
+
+  var isSelected = false;
+  var mycolor = Colors.black;
+  int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +43,26 @@ class _CitiesMenuState extends State<CitiesMenu> {
               scrollDirection: Axis.vertical,
               itemCount: state.getCitiesWeathers.length,
               itemBuilder: (BuildContext context, int index) {
-                return Align(
-                  alignment: Alignment.topCenter,
-                  child: InkWell(
-                    child: Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 50
-                          ),
-                          child: Container(
+                return ListTile(
+                  selected: isSelected,
+                  title: Stack(
+                    children: [
+                      selectedIndex == index
+                          ? IconButton(
+                              onPressed: () {
+                                final weatherBloc =
+                                BlocProvider.of<FetchCitiesDataBloc>(context);
+                                weatherBloc.add(DeleteCityForWeatherEvent(
+                                    state.getCitiesWeathers[index].name));
+                                print(state.getCitiesWeathers.length);
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => CitiesMenu()));
+                              },
+                              icon: Icon(Icons.delete, color: Colors.white,))
+                          : Container(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50),
+                        child: Container(
                             width: MediaQuery.of(context).size.width,
                             height: 100,
                             decoration: BoxDecoration(
@@ -61,124 +76,130 @@ class _CitiesMenuState extends State<CitiesMenu> {
                               ),
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                              .size
+                                              .height /
+                                              80,
+                                          left: MediaQuery.of(context)
+                                              .size
+                                              .height /
+                                              80),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          state.getCitiesWeathers[index].name
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: dayTime() < 18
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                              fontSize: 25),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                              .size
+                                              .height /
+                                              180,
+                                          left: MediaQuery.of(context)
+                                              .size
+                                              .height /
+                                              80),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '${new DateFormat.MMMMd().format(DateTime.fromMicrosecondsSinceEpoch(state.getCitiesWeathers[index].time))}',
+                                          style: TextStyle(
+                                              color: dayTime() < 16
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: 15),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
                                 Row(
                                   children: [
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top:
-                                              MediaQuery.of(context).size.height /
-                                                  80,
-                                              left:
-                                              MediaQuery.of(context).size.height /
-                                                  80),
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              state.getCitiesWeathers[index].name
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: dayTime() < 18
-                                                      ? Colors.black
-                                                      : Colors.white, fontSize: 25),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top:
-                                              MediaQuery.of(context).size.height /
-                                                  180,
-                                              left:
-                                              MediaQuery.of(context).size.height /
-                                                  80),
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              '${new DateFormat.MMMMd().format(DateTime.fromMicrosecondsSinceEpoch(state.getCitiesWeathers[index].time))}',
-                                              style: TextStyle(
-                                                  color: dayTime() < 16
-                                                      ? Colors.white
-                                                      : Colors.black,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontSize: 15),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    Text('Real feel',
+                                        style: TextStyle(
+                                            color: dayTime() < 16
+                                                ? Colors.black
+                                                : Colors.white,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 20)),
                                     SizedBox(
-                                      width: 50,
+                                      width: 10,
                                     ),
                                     Row(
                                       children: [
-                                        Text('Real feel',
+                                        Text(
+                                            '${ConvertTemperature().fahrenheitToCelsius(state.getCitiesWeathers[index].feelsLike)}',
                                             style: TextStyle(
                                                 color: dayTime() < 16
                                                     ? Colors.black
                                                     : Colors.white,
-                                                fontWeight: FontWeight.w400,
                                                 fontSize: 20)),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                                '${ConvertTemperature().fahrenheitToCelsius(state.getCitiesWeathers[index].feelsLike)}',
-                                                style: TextStyle(color: dayTime() < 16
+                                        Text('°C',
+                                            style: TextStyle(
+                                                color: dayTime() < 16
                                                     ? Colors.black
                                                     : Colors.white,
-                                                fontSize: 20)),
-                                            Text('°C',style: TextStyle(color: dayTime() < 16
-                                                ? Colors.black
-                                                : Colors.white,
-                                              fontSize: 12))
-                                          ],
-                                        ),
+                                                fontSize: 12))
                                       ],
                                     ),
                                   ],
                                 ),
                               ],
-                            ),
+                            )),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Image.asset(
+                            'assets/gifs/' +
+                                '${state.getCitiesWeathers[index].icon}' +
+                                '.gif',
+                            height: 100,
+                            width: 100,
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Image.asset(
-                              'assets/gifs/' +
-                                  '${state.getCitiesWeathers[index].icon}' +
-                                  '.gif',
-                              height: 100,
-                              width: 100,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: (){
-                      CityTemporaryMemory().savedCity(state.getCitiesWeathers[index].name);
-                      print('CityTemporaryMemory().savedCity(state.getCitiesWeathers[index].name)   ${state.getCitiesWeathers[index].name}');
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => CityWeatherDetailsWithName(state.getCitiesWeathers[index].name, Icons.menu_outlined)),
-                            (Route<dynamic> route) => false,);
-                    },
-                    onLongPress: () {
-                      final weatherBloc =
-                      BlocProvider.of<FetchCitiesDataBloc>(context);
-                      weatherBloc.add(DeleteCityForWeatherEvent(
-                          state.getCitiesWeathers[index].name));
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
-                    },
+                      ),
+                    ],
                   ),
+                  onTap: (){
+                    CityTemporaryMemory().savedCity(state.getCitiesWeathers[index].name);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => SearchCityResultPage(state.getCitiesWeathers[index].name, Icons.menu_outlined)),
+                          (Route<dynamic> route) => false,);
+                  },
+                  onLongPress:
+                      () {
+                    setState(() {
+                      if (isSelected) {
+                        selectedIndex = index;
+                        mycolor=Colors.black;
+                        isSelected = false;
+                      } else {
+                        selectedIndex = index;
+                        mycolor=Colors.white;
+                        isSelected = true;
+                      }
+                    });
+                  },
                 );
               });
         }

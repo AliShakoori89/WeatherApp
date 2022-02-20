@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/event.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/state.dart';
+import 'package:weather/bloc/cities_weather_bloc/bloc.dart';
+import 'package:weather/bloc/cities_weather_bloc/event.dart';
+import 'package:weather/bloc/cities_weather_bloc/state.dart';
 import 'package:weather/component/day_time.dart';
 import 'package:weather/view/city_weather_details_with_cityname.dart';
 import 'package:weather/view/search_screen.dart';
@@ -30,15 +29,14 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _cityName = (prefs.getString('City_Name') ?? '');
-      print('################################################    $_cityName');
     });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
-    citiesWeathersSummeryBloc.add(FetchAllDataEvent());
+    final citiesWeatherBloc = BlocProvider.of<CitiesWeatherBloc>(context);
+    citiesWeatherBloc.add(FetchAllDataEvent());
 
 
     return Scaffold(
@@ -48,7 +46,6 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                  // color: Colors.white,
                     image: DecorationImage(
                       image: AssetImage((dayTime() < 16)
                           ? 'assets/images/sunny.png'
@@ -57,17 +54,16 @@ class _HomePageState extends State<HomePage> {
                           : 'assets/images/night.png'),
                       fit: BoxFit.fill,
                     )),
-                child: BlocBuilder<CitiesWeathersSummeryBloc, CitiesWeathersSummeryState>(builder: (context, state){
-                  if (state is CitiesWeathersSummeryIsLoadingState){
+                child: BlocBuilder<CitiesWeatherBloc, CitiesWeatherState>(builder: (context, state){
+                  if (state is CitiesWeatherIsLoadingState){
                     return Center(child: CircularProgressIndicator(
                       color: dayTime() < 18
                           ? Colors.black
                           : Colors.white,
                     ));
                   }
-                  if (state is CitiesWeathersSummeryIsLoadedState){
+                  if (state is CitiesWeatherIsLoadedState){
                     if(state.getCitiesWeathers.length != 0){
-                      print('nameeeeeeeeeeeeeeeeeeeeeeeeeeeee:::::::::      $_cityName');
                       return CityWeatherDetailsWithName( _cityName , Icons.menu);
                     }else{
                       return Column(
@@ -98,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                       );
                     }
                   }
-                  if (state is CitiesWeathersSummeryIsNotLoadedState){
+                  if (state is CitiesWeatherIsNotLoadedState){
                     return Text(
                       '',
                       style: TextStyle(fontSize: 25, color: Colors.white),

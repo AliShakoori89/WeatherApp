@@ -21,15 +21,18 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     if (event is FetchWeatherWithCityNameEvent) {
       yield WeatherLoadingState();
       try {
+        print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF    ${event.cityName}');
         final WeatherModel weather = await weatherRepository.getWeatherWithCityName(
           event.cityName,
         );
         yield WeatherIsLoadedState(weather);
       } catch (exception) {
-        print(exception);
+        print('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH   '+ exception);
         if (exception is AppException) {
+          print('LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL   '+ exception.toString());
           yield WeatherError(300);
         } else {
+          print('PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP   '+ exception);
           yield WeatherError(500);
         }
       }

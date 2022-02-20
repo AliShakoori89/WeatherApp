@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/event.dart';
+import 'package:weather/bloc/cities_weather_bloc/bloc.dart';
+import 'package:weather/bloc/cities_weather_bloc/event.dart';
+import 'package:weather/bloc/search_city_bloc/bloc.dart';
+import 'package:weather/bloc/search_city_bloc/event.dart';
 import 'package:weather/bloc/weather_bloc/bloc.dart';
-import 'package:weather/bloc/weather_bloc/event.dart';
 import 'package:weather/bloc/weather_bloc/state.dart';
 import 'package:weather/component/day_time.dart';
 import 'package:weather/convert/convert_temperature.dart';
@@ -38,19 +39,14 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
   @override
   Widget build(BuildContext context) {
 
-    print('*******************************************cityname:::;    ${this.cityName}');
-
-    final weatherBloc = BlocProvider.of<WeatherBloc>(context);
-    weatherBloc.add(FetchWeatherWithCityNameEvent(cityName));
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@cityname:::;    $cityName');
+    final searchCityBloc = BlocProvider.of<SearchCityBloc>(context);
+    searchCityBloc.add(SearchCityWeatherResultEvent(cityName));
 
     return BlocBuilder<WeatherBloc, WeatherState>(builder: (context, state){
       if (state is WeatherLoadingState){
         return Center();
       }
       if (state is WeatherIsLoadedState){
-
-        print('((((((((((((((((((((((((()))))))))))))))))))))))))cityname:::;   $cityName');
 
         var temp = state.getWeather.main.temp;
         var name = state.getWeather.name;
@@ -72,7 +68,6 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
             right: 15.0,
           ),
           decoration: BoxDecoration(
-              // color: Colors.grey[900].withOpacity(0.5),
               borderRadius: BorderRadius.circular(25)
           ),
           child: Wrap(
@@ -365,8 +360,8 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
 
 
                         _saveCity(name);
-                        final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
-                        citiesWeathersSummeryBloc.add(SaveCityWeathersEvent(cityModel));
+                        final citiesWeatherBloc = BlocProvider.of<CitiesWeatherBloc>(context);
+                        citiesWeatherBloc.add(SaveCityWeathersEvent(cityModel));
 
                         // CityTemporaryMemory().savedCity(name);
                         Navigator.pushAndRemoveUntil(

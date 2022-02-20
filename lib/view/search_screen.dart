@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart' as Geo;
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/bloc.dart';
-import 'package:weather/bloc/all_cities_summery_container_bloc/event.dart';
 import 'package:weather/view/city_weather_details_with_citylocation.dart';
 import 'dart:ui' as ui;
-import 'package:weather/view/city_weather_details_with_cityname.dart';
+import 'package:weather/view/search_city_result_page.dart';
 
 
 class SearchScreen extends StatefulWidget {
@@ -78,9 +74,6 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
 
-    final citiesWeathersSummeryBloc = BlocProvider.of<CitiesWeathersSummeryBloc>(context);
-    citiesWeathersSummeryBloc.add(FetchAllDataEvent());
-
     return Column (
       children: [
         SizedBox (height: MediaQuery.of (context).size.height / 20),
@@ -147,7 +140,7 @@ class _SearchPageState extends State<SearchPage> {
                           context).push (
                           MaterialPageRoute (
                               builder: (context) =>
-                                  CityWeatherDetailsWithName (this.cityNameController.text, Icons.add)));
+                                  SearchCityResultPage (this.cityNameController.text, Icons.add)));
                     },
                     focusNode: focusNode,
                     maxLines: null,
@@ -159,7 +152,7 @@ class _SearchPageState extends State<SearchPage> {
                                 context).push (
                                 MaterialPageRoute (
                                     builder: (context) =>
-                                        CityWeatherDetailsWithName (this.cityNameController.text, Icons.add)));
+                                        SearchCityResultPage (this.cityNameController.text, Icons.add)));
                           }else {
                             showTopSnackBar (
                               context,

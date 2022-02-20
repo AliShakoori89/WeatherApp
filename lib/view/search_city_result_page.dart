@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:weather/component/day_time.dart';
 import 'package:weather/view/daily_weak_weathers_with_city_name.dart';
 import 'package:weather/view/hourly_week_weathers_with_city_name.dart';
+import 'package:weather/view/search_city_weather_result.dart';
 import 'package:weather/view/temperature_chart_with_cityname.dart';
 import 'package:weather/view/today_weather_with_city_name.dart';
 
 
-class CityWeatherDetailsWithName extends StatelessWidget {
+class SearchCityResultPage extends StatelessWidget {
 
   final String cityName;
   final IconData iconType;
 
-  CityWeatherDetailsWithName(this.cityName, this.iconType);
+  SearchCityResultPage(this.cityName, this.iconType);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class CityWeatherDetailsWithName extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
+          // color: Colors.white,
             image: DecorationImage(
               image: AssetImage((dayTime() < 16)
                   ? 'assets/images/sunny.png'
@@ -35,7 +37,7 @@ class CityWeatherDetailsWithName extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              TodayWeatherWithCityName(cityName, iconType),
+              SearchCityWeatherResult(cityName, iconType),
               SizedBox(
                 height: 20,
               ),

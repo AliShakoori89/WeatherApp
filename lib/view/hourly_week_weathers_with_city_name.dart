@@ -19,8 +19,6 @@ class HourlyWeekWeathersWithCityName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv'+cityName);
-
     final weatherBloc = BlocProvider.of<WeatherDetailsBloc>(context);
     weatherBloc.add(FetchWeathersDetailsWithCityName(cityName));
 
@@ -62,7 +60,6 @@ class HourlyWeekWeathersWithCityName extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    // physics: BouncingScrollPhysics(),
                     itemCount: hourly.length - 20,
                     itemBuilder: (context, index) {
 
