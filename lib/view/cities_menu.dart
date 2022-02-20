@@ -54,7 +54,6 @@ class _CitiesMenuState extends State<CitiesMenu> {
                                 BlocProvider.of<FetchCitiesDataBloc>(context);
                                 weatherBloc.add(DeleteCityForWeatherEvent(
                                     state.getCitiesWeathers[index].name));
-                                print(state.getCitiesWeathers.length);
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) => CitiesMenu()));
                               },
@@ -222,6 +221,11 @@ class _CitiesMenuState extends State<CitiesMenu> {
         },
       ),
     );
+  }
+
+  clearMemory() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
   }
 }
 

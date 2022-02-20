@@ -11,7 +11,6 @@ class WeatherRepository {
   ApiBaseHelper _apiHelper = ApiBaseHelper();
 
   Future<WeatherModel> getWeatherWithCityName(String cityName) async {
-    print('wwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::::::   '+ cityName);
     var weather = await _apiHelper.getWeatherDataWithCityName(cityName);
     return weather;
   }
@@ -58,11 +57,7 @@ class WeatherRepository {
     final Location location = Location();
     bool serviceStatusResult = await location.requestService();
 
-    print('1');
-    // Geo.Position position;
-    // List locat = [];
      if (serviceStatusResult){
-       print('2');
        var position = await Geo.Geolocator.getCurrentPosition();
        return position;
 

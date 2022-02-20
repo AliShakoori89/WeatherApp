@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CityTemporaryMemory{
 
   savedCity(String cName) async {
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@CCCCCCCCCC'+cName);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('City_Name', cName);
   }
