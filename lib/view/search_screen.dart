@@ -154,17 +154,18 @@ class _SearchPageState extends State<SearchPage> {
                                     builder: (context) =>
                                         SearchCityResultPage (this.cityNameController.text, Icons.add)));
                           }else {
-                            showTopSnackBar (
-                              context,
-                              CustomSnackBar.info (
-                                message:
-                                "Please enter city name before press search icon",
-                                textStyle: TextStyle (
-                                  color: Colors.white,
-                                ),
-                                backgroundColor: Colors.black54,
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.white,
+                              content: const Text('Please enter city name',
+                              style: TextStyle(
+                                color: Colors.white
+                              ),),
+                              duration: const Duration(seconds: 1),
+                              action: SnackBarAction(
+                                label: 'ACTION',
+                                onPressed: () { },
                               ),
-                            );
+                            ));
                           }
                         },
                         icon: Icon (

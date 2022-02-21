@@ -48,7 +48,6 @@ dependencies:
   location: ^4.3.0
   top_snackbar_flutter: ^1.0.0
   permission_handler: ^8.1.4+2
-  snack: ^2.0.0
   device_preview: ^1.0.0
 
 flutter_icons:
