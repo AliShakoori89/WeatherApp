@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _cityName = (prefs.getString('City_Name') ?? '');
+      print(_cityName+'     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     });
   }
 
@@ -64,6 +65,7 @@ class _HomePageState extends State<HomePage> {
                   }
                   if (state is CitiesWeatherIsLoadedState){
                     if(state.getCitiesWeathers.length != 0){
+                      print(_cityName+'     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
                       return CityWeatherDetailsWithName( _cityName , Icons.menu);
                     }else{
                       return Column(

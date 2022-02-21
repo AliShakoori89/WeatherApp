@@ -14,10 +14,7 @@ import 'bloc/daily_hourly_weather_bloc/bloc.dart';
 
 
 void main() => runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(),
-    ));
+    MyApp());
 
 class MyApp extends StatelessWidget {
 
@@ -50,11 +47,6 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            useInheritedMediaQuery: true,
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
             home: HomePage())
     );
   }

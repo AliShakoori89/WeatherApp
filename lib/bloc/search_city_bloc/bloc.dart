@@ -12,13 +12,10 @@ class SearchCityBloc extends Bloc<SearchResultEvent, SearchResultState>{
 
   @override
   Stream<SearchResultState> mapEventToState(SearchResultEvent event) async*{
-
-
-    @override
-    Stream<SearchResultState> mapEventToState(SearchResultEvent event) async* {
       if (event is SearchCityWeatherResultEvent) {
         yield SearchResultLoadingState();
         try {
+          print(event.cityName+' ((((((((((((((((((((((((((((((((((((((((((((');
           final WeatherModel weather = await weatherRepository
               .getWeatherWithCityName(
             event.cityName,
@@ -32,6 +29,6 @@ class SearchCityBloc extends Bloc<SearchResultEvent, SearchResultState>{
           }
         }
       }
-    }
+
   }
 }

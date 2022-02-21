@@ -12,6 +12,7 @@ class WeatherRepository {
 
   Future<WeatherModel> getWeatherWithCityName(String cityName) async {
     var weather = await _apiHelper.getWeatherDataWithCityName(cityName);
+    print(weather.name+'_________________________________________');
     return weather;
   }
 
