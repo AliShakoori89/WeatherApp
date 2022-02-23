@@ -161,10 +161,6 @@ class _SearchPageState extends State<SearchPage> {
                                 color: Colors.white
                               ),),
                               duration: const Duration(seconds: 1),
-                              action: SnackBarAction(
-                                label: 'ACTION',
-                                onPressed: () { },
-                              ),
                             ));
                           }
                         },
