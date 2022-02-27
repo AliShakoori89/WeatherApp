@@ -12,7 +12,6 @@ class FetchCitiesDataBloc extends Bloc<FetchCitiesDataEvent, FetchCitiesDataStat
 
   @override
   Stream<FetchCitiesDataState> mapEventToState(FetchCitiesDataEvent event) async*{
-    print('FetchCitiesDataState');
     if(event is SaveCityWeathersEvent){
       await weatherRepository.saveCityWeatherDetailesRepo(event.cityWeathers);
       List<CityModel> citiesWeather = await weatherRepository.fetchAllDataCityWeatherRepo();
@@ -26,7 +25,6 @@ class FetchCitiesDataBloc extends Bloc<FetchCitiesDataEvent, FetchCitiesDataStat
     }
 
     if(event is FetchCitiesDataWeatherEvent){
-      print('kkkkkkkkkkkkkkkkkkkkkkkkkkkk');
       List<CityModel> citiesWeather = await weatherRepository.fetchAllDataCityWeatherRepo();
       yield FetchCitiesDataIsLoadedState(citiesWeather);
     }

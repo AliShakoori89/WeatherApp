@@ -22,10 +22,7 @@ class SearchLocationsBloc extends Bloc<SearchLocationEvent, SearchLocationStat> 
     if (event is FetchWeathersLocations) {
       yield SearchLocationLoadingState();
       try {
-        print('is load1');
         final Geo.Position location = await weatherRepository.fetchCityLocationRepo();
-        // print(location.longitude);
-        print('is load2');
         yield SearchLocationIsLoadedState(location);
       } catch (exception) {
         print(exception);

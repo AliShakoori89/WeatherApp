@@ -3,11 +3,10 @@ import 'package:weather/models/city_model.dart';
 
 class CitiesWeatherEvent extends Equatable {
   @override
-
   List<Object> get props => [];
 }
 
-class SaveCityWeathersEvent extends CitiesWeatherEvent{
+class SaveCityWeathersEvent extends CitiesWeatherEvent {
   final CityModel cityWeathers;
 
   SaveCityWeathersEvent(this.cityWeathers);
@@ -16,9 +15,9 @@ class SaveCityWeathersEvent extends CitiesWeatherEvent{
   List<Object> get props => [cityWeathers];
 }
 
-class FetchAllDataEvent extends CitiesWeatherEvent{}
+class FetchAllDataEvent extends CitiesWeatherEvent {}
 
-class FetchWeatherWithCityNameForUpdateEvent extends CitiesWeatherEvent{
+class FetchWeatherWithCityNameForUpdateEvent extends CitiesWeatherEvent {
   final String cityName;
 
   FetchWeatherWithCityNameForUpdateEvent(this.cityName);
@@ -36,7 +35,7 @@ class DeleteCityForWeatherEvent extends CitiesWeatherEvent {
   List<Object> get props => [cityName];
 }
 
-class UpdateCityWeatherEvent extends CitiesWeatherEvent{
+class UpdateCityWeatherEvent extends CitiesWeatherEvent {
   final CityModel cityWeathers;
 
   UpdateCityWeatherEvent(this.cityWeathers);
@@ -49,5 +48,4 @@ class WeatherError extends CitiesWeatherEvent {
   final int errorCode;
 
   WeatherError(this.errorCode);
-
 }

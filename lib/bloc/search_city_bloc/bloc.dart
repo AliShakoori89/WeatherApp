@@ -15,7 +15,6 @@ class SearchCityBloc extends Bloc<SearchResultEvent, SearchResultState>{
       if (event is SearchCityWeatherResultEvent) {
         yield SearchResultLoadingState();
         try {
-          print(event.cityName+' ((((((((((((((((((((((((((((((((((((((((((((');
           final WeatherModel weather = await weatherRepository
               .getWeatherWithCityName(
             event.cityName,

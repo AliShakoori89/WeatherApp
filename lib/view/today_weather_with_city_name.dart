@@ -6,7 +6,6 @@ import 'package:weather/bloc/cities_weather_bloc/event.dart';
 import 'package:weather/bloc/search_city_bloc/bloc.dart';
 import 'package:weather/bloc/search_city_bloc/event.dart';
 import 'package:weather/bloc/search_city_bloc/state.dart';
-import 'package:weather/bloc/weather_bloc/state.dart';
 import 'package:weather/component/day_time.dart';
 import 'package:weather/convert/convert_temperature.dart';
 import 'package:weather/models/city_model.dart';
@@ -39,21 +38,14 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
   @override
   Widget build(BuildContext context) {
 
-    print(cityName+'     #############################################');
-
     final searchCityBloc = BlocProvider.of<SearchCityBloc>(context);
     searchCityBloc.add(SearchCityWeatherResultEvent(cityName));
 
-    print(cityName+'       &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-
     return BlocBuilder<SearchCityBloc, SearchResultState>(builder: (context, state){
       if (state is SearchResultLoadingState){
-        print('   WeatherLoadingState  #############################################');
         return Center();
       }
       if (state is SearchResultIsLoadedState){
-
-        print('   WeatherIsLoadedState  #############################################');
 
         var temp = state.getWeather.main.temp;
         var name = state.getWeather.name;
@@ -130,7 +122,6 @@ class _TodayWeatherWithCityNameState extends State<TodayWeatherWithCityName> {
       }
       if (state is SearchResultIsNotLoadedState){
 
-        print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&7       WeatherIsNotLoadedState');
         return Text(
           '',
           style: TextStyle(fontSize: 25, color: Colors.white),

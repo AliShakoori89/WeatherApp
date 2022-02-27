@@ -8,15 +8,12 @@ import 'package:weather/component/day_time.dart';
 import 'package:weather/view/city_weather_details_with_cityname.dart';
 import 'package:weather/view/search_screen.dart';
 
-
-class HomePage extends StatefulWidget{
-
+class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   String _cityName;
 
   @override
@@ -34,10 +31,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     final citiesWeatherBloc = BlocProvider.of<CitiesWeatherBloc>(context);
     citiesWeatherBloc.add(FetchAllDataEvent());
-
 
     return Scaffold(
         backgroundColor: Colors.black,
@@ -47,30 +42,31 @@ class _HomePageState extends State<HomePage> {
                 height: double.infinity,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage((dayTime() < 16)
-                          ? 'assets/images/sunny.png'
-                          : (18 > dayTime())
+                  image: AssetImage((dayTime() < 16)
+                      ? 'assets/images/sunny.png'
+                      : (18 > dayTime())
                           ? 'assets/images/afternoon.png'
                           : 'assets/images/night.png'),
-                      fit: BoxFit.fill,
-                    )),
-                child: BlocBuilder<CitiesWeatherBloc, CitiesWeatherState>(builder: (context, state){
-                  if (state is CitiesWeatherIsLoadingState){
-                    return Center(child: CircularProgressIndicator(
-                      color: dayTime() < 18
-                          ? Colors.black
-                          : Colors.white,
+                  fit: BoxFit.fill,
+                )),
+                child: BlocBuilder<CitiesWeatherBloc, CitiesWeatherState>(
+                    builder: (context, state) {
+                  if (state is CitiesWeatherIsLoadingState) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: dayTime() < 18 ? Colors.black : Colors.white,
                     ));
                   }
-                  if (state is CitiesWeatherIsLoadedState){
-                    if(state.getCitiesWeathers.length != 0){
-                      return CityWeatherDetailsWithName( _cityName , Icons.menu);
-                    }else{
+                  if (state is CitiesWeatherIsLoadedState) {
+                    if (state.getCitiesWeathers.length != 0) {
+                      return CityWeatherDetailsWithName(_cityName, Icons.menu);
+                    } else {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('No city data to show, please add a city and retry',
+                          Text(
+                              'No city data to show, please add a city and retry',
                               style: dayTime() < 18
                                   ? TextStyle(color: Colors.black)
                                   : TextStyle(color: Colors.white)),
@@ -85,26 +81,25 @@ class _HomePageState extends State<HomePage> {
                                   child: Text('Add city'),
                                 ),
                               ),
-                              onPressed: (){
+                              onPressed: () {
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => SearchScreen()));
+                                    MaterialPageRoute(
+                                        builder: (context) => SearchScreen()));
                               })
                         ],
                       );
                     }
                   }
-                  if (state is CitiesWeatherIsNotLoadedState){
+                  if (state is CitiesWeatherIsNotLoadedState) {
                     return Text(
                       '',
                       style: TextStyle(fontSize: 25, color: Colors.white),
                     );
                   }
-                  return Center(child: Text("", style: TextStyle(fontSize: 25, color: Colors.white)));
-                }
-                )
-            )
-        )
-    );
+                  return Center(
+                      child: Text("",
+                          style: TextStyle(fontSize: 25, color: Colors.white)));
+                }))));
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -37,12 +39,15 @@ class _CitiesMenuState extends State<CitiesMenu> {
           title: Text('Warning'),
           content: Container(
             height: 20,
-              child: Text('please select city !!')),
+              child: Text('please select city or otherwise exit app!!')),
           actions: [
             FlatButton(
               child: Text('ok'),
               onPressed: () => Navigator.of(context).pop()
             ),
+            FlatButton(
+                onPressed: () => exit(0),
+                child: Text('exit'),)
           ],
         ),
       ),
